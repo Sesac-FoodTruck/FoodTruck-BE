@@ -13,6 +13,8 @@ router.get('/member/:id', getConnection, async (req, res) => {
             return res.status(404).json({ error: "Member not found" });
         }
 
+        console.log(rows);
+
         res.json(rows[0]);
     } catch (error) {
         console.error("Database error:", error);
