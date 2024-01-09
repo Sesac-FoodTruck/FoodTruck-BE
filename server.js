@@ -1,4 +1,4 @@
-const app = require("./src/app_old");
+const app = require("./src/app");
 const executeSQLScript = require("./src/scripts/executeSQLScript");
 const port = 5000;
 

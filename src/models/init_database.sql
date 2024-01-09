@@ -27,6 +27,7 @@ CREATE TABLE `store` (
   `account` VARCHAR(30) COLLATE utf8_unicode_ci DEFAULT NULL,
   `latitude` FLOAT NOT NULL,
   `longitude` FLOAT NOT NULL,
+  `confirmed` INT(11) NOT NULL,
   `memberid` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`storeno`),
   FOREIGN KEY (`categoryid`) REFERENCES `foodcategory` (`categoryid`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -128,27 +129,27 @@ INSERT INTO `foodcategory` (`categoryid`, `categoryname`) VALUES
     (10, '아시아음식');
 
 -- Insert sample data into 'store' table
-INSERT INTO `store` (`storename`, `storetime`, `categoryid`, `storeweek`, `photos`, `contact`, `account`, `latitude`, `longitude`, `memberid`) VALUES
-    ('장한평역 샌드위치', '9:00 AM - 6:00 PM', 1, '월화수목금토', 'photo1.jpg', '123-456-7890', 'account1', 37.56144, 127.064623, 'a1d36768-5f9a-4ab3-99e1-3f8d66adff51'),
-    ('새싹 빈대떡', '8:00 AM - 6:00 PM', 2, '월수금토일', 'photo2.jpg', '987-654-3210', 'account2', 37.56151, 127.064333, 'd6c78083-28e4-4b61-a8f6-c1e0a189d0af'),
-    ('장한 닭발', '10:00 AM - 7:00 PM', 3, '월화수목금토일', 'photo3.jpg', '555-555-5555', 'account3', 37.56179, 127.064222, '9aee8a47-8c53-4c61-8ee9-245ab25165e5'),
-    ('테슬라 황금붕어빵', '11:00 AM - 8:00 PM', 4, '월화수목금', 'photo4.jpg', '999-999-9999', 'account4', 37.56118, 127.064721, 'c35df8e2-5d8b-46ef-bd08-9c614c4db07d'),
-    ('선식당 스테이크', '7:00 AM - 9:00 PM', 5, '월수금', 'photo5.jpg', '111-111-1111', 'account5', 37.56178, 127.064894, 'a1d36768-5f9a-4ab3-99e1-3f8d66adff51'),
-    ('장한평역 1번출구', '9:00 AM - 9:00 PM', 1, '월화수목금토', 'photo1.jpg', '123-456-7890', 'account1', 37.56188, 127.064543, 'a1d36768-5f9a-4ab3-99e1-3f8d66adff51'),
-    ('SESAC 호떡', '8:00 AM - 5:00 PM', 2, '월수금토일', 'photo2.jpg', '987-654-3210', 'account2', 37.56186, 127.064642, 'd6c78083-28e4-4b61-a8f6-c1e0a189d0af'),
-    ('장한 닭발', '10:00 AM - 7:00 PM', 3, '월화수목금토일', 'photo3.jpg', '555-555-5555', 'account3', 37.56199, 127.010853, '9aee8a47-8c53-4c61-8ee9-245ab25165e5'),
-    ('중고 붕어빵', '11:00 AM - 8:00 PM', 4, '월화수목금', 'photo4.jpg', '999-999-9999', 'account4', 37.56102, 127.064876, 'c35df8e2-5d8b-46ef-bd08-9c614c4db07d'),
-    ('길거리 스테이크', '7:00 AM - 4:00 PM', 5, '월수금', 'photo5.jpg', '111-111-1111', 'account5', 37.511357, 127.064678, 'a1d36768-5f9a-4ab3-99e1-3f8d66adff51'),
-    ('신당 국수집', '9:00 AM - 9:00 PM', 6, '월화수목금', 'photo6.jpg', '222-222-2222', 'account6', 37.565799, 127.01731, 'd41a74e1-985a-43d8-92c9-67ab2c7d7e9f'),
-    ('중앙시장 등갈비', '8:00 AM - 8:00 PM', 7, '월수목토일', 'photo7.jpg', '333-333-3333', 'account7', 37.565555, 127.01766, 'a1d36768-5f9a-4ab3-99e1-3f8d66adff51'),
-    ('전기구이 통닭', '10:00 AM - 7:00 PM', 8, '토일', 'photo8.jpg', '444-444-4444', 'account8', 37.565891, 127.01776, 'b0d23e64-4c2d-46dd-b71d-d9d1f933d87d'),
-    ('카페 시장', '11:00 AM - 8:00 PM', 9, '월화수목금', 'photo9.jpg', '666-666-6666', 'account9', 37.565921, 127.01791, 'c35df8e2-5d8b-46ef-bd08-9c614c4db07d'),
-    ('신당 닭강정', '7:00 AM - 4:00 PM', 10, '월화수목금토일', 'photo10.jpg', '777-777-7777', 'account10', 37.515864, 127.01747, '44a191bf-7f3a-49e0-8e38-c5c3dd4a096e'),
-    ('신당역 앞 붕어빵', '9:00 AM - 6:00 PM', 6, '월화수목금', 'photo6.jpg', '222-222-2222', 'account6', 37.515865, 127.01771, 'd41a74e1-985a-43d8-92c9-67ab2c7d7e9f'),
-    ('중앙시장 잔치국수', '8:00 AM - 5:00 PM', 7, '월수목토일', 'photo7.jpg', '333-333-3333', 'account7', 37.565246, 127.01702, 'a1d36768-5f9a-4ab3-99e1-3f8d66adff51'),
-    ('감자 핫도그', '10:00 AM - 7:00 PM', 8, '토일', 'photo8.jpg', '444-444-4444', 'account8', 37.565123, 127.01055, 'b0d23e64-4c2d-46dd-b71d-d9d1f933d87d'),
-    ('카페 청년다방', '11:00 AM - 8:00 PM', 9, '월화수목금', 'photo9.jpg', '666-666-6666', 'account9', 37.565001, 127.01722, 'c35df8e2-5d8b-46ef-bd08-9c614c4db07d'),
-    ('신당 닭발', '7:00 AM - 4:00 PM', 10, '월화수목금토일', 'photo10.jpg', '777-777-7777', 'account10', 37.565072, 127.01702, '44a191bf-7f3a-49e0-8e38-c5c3dd4a096e');
+INSERT INTO `store` (`storename`, `storetime`, `categoryid`, `storeweek`, `photos`, `contact`, `account`, `latitude`, `longitude`, `confirmed`, `memberid`) VALUES
+    ('장한평역 샌드위치', '9:00 AM - 6:00 PM', 1, '월화수목금토', 'photo1.jpg', '123-456-7890', 'account1', 37.56144, 127.064623, '1', 'a1d36768-5f9a-4ab3-99e1-3f8d66adff51'),
+    ('새싹 빈대떡', '8:00 AM - 6:00 PM', 2, '월수금토일', 'photo2.jpg', '987-654-3210', 'account2', 37.56151, 127.064333, '1','d6c78083-28e4-4b61-a8f6-c1e0a189d0af'),
+    ('장한 닭발', '10:00 AM - 7:00 PM', 3, '월화수목금토일', 'photo3.jpg', '555-555-5555', 'account3', 37.56179, 127.064222, '0','9aee8a47-8c53-4c61-8ee9-245ab25165e5'),
+    ('테슬라 황금붕어빵', '11:00 AM - 8:00 PM', 4, '월화수목금', 'photo4.jpg', '999-999-9999', 'account4', 37.56118, 127.064721, '0','c35df8e2-5d8b-46ef-bd08-9c614c4db07d'),
+    ('선식당 스테이크', '7:00 AM - 9:00 PM', 5, '월수금', 'photo5.jpg', '111-111-1111', 'account5', 37.56178, 127.064894, '0','a1d36768-5f9a-4ab3-99e1-3f8d66adff51'),
+    ('장한평역 1번출구', '9:00 AM - 9:00 PM', 1, '월화수목금토', 'photo1.jpg', '123-456-7890', 'account1', 37.56188, 127.064543, '0','a1d36768-5f9a-4ab3-99e1-3f8d66adff51'),
+    ('SESAC 호떡', '8:00 AM - 5:00 PM', 2, '월수금토일', 'photo2.jpg', '987-654-3210', 'account2', 37.56186, 127.064642, '1','d6c78083-28e4-4b61-a8f6-c1e0a189d0af'),
+    ('장한 닭발', '10:00 AM - 7:00 PM', 3, '월화수목금토일', 'photo3.jpg', '555-555-5555', 'account3', 37.56199, 127.010853, '0','9aee8a47-8c53-4c61-8ee9-245ab25165e5'),
+    ('중고 붕어빵', '11:00 AM - 8:00 PM', 4, '월화수목금', 'photo4.jpg', '999-999-9999', 'account4', 37.56102, 127.064876, '1','c35df8e2-5d8b-46ef-bd08-9c614c4db07d'),
+    ('길거리 스테이크', '7:00 AM - 4:00 PM', 5, '월수금', 'photo5.jpg', '111-111-1111', 'account5', 37.511357, 127.064678, '0','a1d36768-5f9a-4ab3-99e1-3f8d66adff51'),
+    ('신당 국수집', '9:00 AM - 9:00 PM', 6, '월화수목금', 'photo6.jpg', '222-222-2222', 'account6', 37.565799, 127.01731, '0','d41a74e1-985a-43d8-92c9-67ab2c7d7e9f'),
+    ('중앙시장 등갈비', '8:00 AM - 8:00 PM', 7, '월수목토일', 'photo7.jpg', '333-333-3333', 'account7', 37.565555, 127.01766, '0','a1d36768-5f9a-4ab3-99e1-3f8d66adff51'),
+    ('전기구이 통닭', '10:00 AM - 7:00 PM', 8, '토일', 'photo8.jpg', '444-444-4444', 'account8', 37.565891, 127.01776, '1','b0d23e64-4c2d-46dd-b71d-d9d1f933d87d'),
+    ('카페 시장', '11:00 AM - 8:00 PM', 9, '월화수목금', 'photo9.jpg', '666-666-6666', 'account9', 37.565921, 127.01791, '1','c35df8e2-5d8b-46ef-bd08-9c614c4db07d'),
+    ('신당 닭강정', '7:00 AM - 4:00 PM', 10, '월화수목금토일', 'photo10.jpg', '777-777-7777', 'account10', 37.515864, 127.01747, '0','44a191bf-7f3a-49e0-8e38-c5c3dd4a096e'),
+    ('신당역 앞 붕어빵', '9:00 AM - 6:00 PM', 6, '월화수목금', 'photo6.jpg', '222-222-2222', 'account6', 37.515865, 127.01771, '0','d41a74e1-985a-43d8-92c9-67ab2c7d7e9f'),
+    ('중앙시장 잔치국수', '8:00 AM - 5:00 PM', 7, '월수목토일', 'photo7.jpg', '333-333-3333', 'account7', 37.565246, 127.01702, '0','a1d36768-5f9a-4ab3-99e1-3f8d66adff51'),
+    ('감자 핫도그', '10:00 AM - 7:00 PM', 8, '토일', 'photo8.jpg', '444-444-4444', 'account8', 37.565123, 127.01055, '0','b0d23e64-4c2d-46dd-b71d-d9d1f933d87d'),
+    ('카페 청년다방', '11:00 AM - 8:00 PM', 9, '월화수목금', 'photo9.jpg', '666-666-6666', 'account9', 37.565001, 127.01722, '0','c35df8e2-5d8b-46ef-bd08-9c614c4db07d'),
+    ('신당 닭발', '7:00 AM - 4:00 PM', 10, '월화수목금토일', 'photo10.jpg', '777-777-7777', 'account10', 37.565072, 127.01702, '0','44a191bf-7f3a-49e0-8e38-c5c3dd4a096e');
 
 -- 'item' 테이블에 샘플 데이터 삽입
 INSERT INTO `item` (`itemname`, `itemimgurl`, `iteminformation`, `itemprice`, `storeno`) VALUES
