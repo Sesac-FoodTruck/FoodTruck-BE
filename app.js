@@ -40,14 +40,14 @@ nunjucks.configure(path.join(__dirname, '/src/views'), {
     noCache: true
 });
 
-// app.use(getConnection);
+app.use(getConnection);
 app.use(mainRoutes);
 app.use(registerRoutes);
 app.use(purchaseRoutes);
 app.use(mypageRoutes);
 app.use(memberRoutes);
 app.use(memberApiRoutes);
-app.use('/calculate', calculateRoutes); // 매장 조회 라우트 모듈 사용
+app.use(calculateRoutes); // 매장 조회 라우트 모듈 사용
 
 // body json 파싱
 app.use(express.json());

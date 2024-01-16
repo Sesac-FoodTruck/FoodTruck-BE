@@ -12,7 +12,7 @@ router.get('/member', getConnection, async (req, res) => {
         }
 
         const query = 'SELECT * FROM member WHERE id = ?';
-        const [rows] = await req.connection.query(query, [memberId]);
+        const [rows] = await req.dbConnection.query(query, [memberId]);
 
         if (rows.length === 0) {
             return res.status(404).json({ error: "Member not found" });

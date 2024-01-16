@@ -115,7 +115,7 @@ INSERT INTO `member` (`id`, `nickname`, `profileimg`, `social_id`, `social_code`
     ('c35df8e2-5d8b-46ef-bd08-9c614c4db07d', '김다미', NULL, 'lucas@kakao.com', 2),
     ('44a191bf-7f3a-49e0-8e38-c5c3dd4a096e', '김태리', NULL, 'sophia@kakao.com', 2);
 
--- Insert sample data for the `foodcategory` table
+-- Insert sample data for the `foodcategory` tablegit 
 INSERT INTO `foodcategory` (`categoryid`, `categoryname`) VALUES
     (1, '야식'),
     (2, '샐러드'),
