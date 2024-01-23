@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Store</title>
+</head>
+<body>
+    <h1>매장 등록</h1>
+    <form id="registerStoreForm" enctype="multipart/form-data">
+        <label for="storename">매장명:</label>
+        <input type="text" id="storename" placeholder="Store Name" required><br>
+        <label for="storetime">매장운영시간:</label>
+        <input type="text" id="storetime" placeholder="Store Time" required><br>
+        <label for="categoryid">매장분류:</label>
+        <input type="number" id="categoryid" placeholder="Category ID" required><br>
+        <label for="storeweek">주간운영요일:</label>
+        <input type="text" id="storeweek" placeholder="Store Week" required><br>
+        <label for="photos">매장사진:</label>
+        <input type="file" id="photos" accept="image/*"><br>
+        <label for="contact">연락처:</label>
+        <input type="text" id="contact" placeholder="Contact" required><br>
+        <label for="account">계좌:</label>
+        <input type="text" id="account" placeholder="Account" required><br>
+        <label for="Latitude">위도:</label>
+        <input type="number" id="latitude" placeholder="Latitude" required step="0.000001"><br>
+        <label for="Longitude">경도:</label>
+        <input type="number" id="longitude" placeholder="Longitude" required step="0.000001"><br>
+        <label for="Confirmed">사진인증여부:</label>
+        <input type="number" id="confirmed" placeholder="Confirmed" required><br>
+        <label for="Member ID">등록회원id:</label>
+        <input type="text" id="memberid" placeholder="Member ID" required><br>
+        <button type="submit">매장 등록</button>
+    </form>
+
+    <script src="/registerTruck.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</body>
+</html>
