@@ -1,39 +1,39 @@
 -- 사용자 테이블 생성
 CREATE TABLE `member` (
-  `id` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `nickname` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
-  `profileimg` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci,
-  `social_id` text COLLATE utf8_unicode_ci NOT NULL,
+  `id` varchar(50) NOT NULL,
+  `nickname` varchar(50) DEFAULT NULL,
+  `profileimg` varchar(255),
+  `social_id` text NOT NULL,
   `social_code` int(11) NOT NULL,
   `social_token` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- 매장분류 테이블 생성
 CREATE TABLE `foodcategory` (
   `categoryid` int(11) NOT NULL,
-  `categoryname` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `categoryname` varchar(50) CHARACTER SET utf8 DEFAULT NULL,
   PRIMARY KEY (`categoryid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- 매장 테이블 생성
 CREATE TABLE `store` (
   `storeno` INT(11) NOT NULL AUTO_INCREMENT,
-  `storename` VARCHAR(50) COLLATE utf8_unicode_ci NOT NULL,
-  `storetime` VARCHAR(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `storename` VARCHAR(50) NOT NULL,
+  `storetime` VARCHAR(50) DEFAULT NULL,
   `categoryid` INT(11) NOT NULL,
-  `storeweek` VARCHAR(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `photos` VARCHAR(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `contact` VARCHAR(20) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `account` VARCHAR(30) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `storeweek` VARCHAR(50) DEFAULT NULL,
+  `photos` VARCHAR(50) DEFAULT NULL,
+  `contact` VARCHAR(20) DEFAULT NULL,
+  `account` VARCHAR(30) DEFAULT NULL,
   `latitude` FLOAT NOT NULL,
   `longitude` FLOAT NOT NULL,
   `confirmed` INT(11) NOT NULL,
-  `memberid` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `memberid` varchar(50) NOT NULL,
   PRIMARY KEY (`storeno`),
   FOREIGN KEY (`categoryid`) REFERENCES `foodcategory` (`categoryid`) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (`memberid`) REFERENCES `member` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 -- 매장메뉴 생성
 CREATE TABLE `item` (
@@ -45,42 +45,42 @@ CREATE TABLE `item` (
   `storeno` INT NOT NULL, -- store 테이블의 storeno와 연결되는 외래 키
   PRIMARY KEY (`iditem`),
   FOREIGN KEY (`storeno`) REFERENCES `store` (`storeno`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- 매장 review
 CREATE TABLE `review` (
   `reviewno` int(11) NOT NULL AUTO_INCREMENT,
-  `id` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `id` varchar(50) NOT NULL,
   `storeno` int(11) NOT NULL,
-  `storecontent` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `storecontent` varchar(50) CHARACTER SET utf8 NOT NULL,
   `revietime` datetime NOT NULL,
   PRIMARY KEY (`reviewno`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- 매장 report
 CREATE TABLE `report` (
   `reportno` int(11) NOT NULL AUTO_INCREMENT,
-  `id` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `id` varchar(50) NOT NULL,
   `storeno` int(11) NOT NULL,
   PRIMARY KEY (`reportno`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- 매장 rate
 CREATE TABLE `rate` (
   `rateno` int(11) NOT NULL AUTO_INCREMENT,
-  `id` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `id` varchar(50) NOT NULL,
   `storeno` int(11) NOT NULL,
   `storerate` int(11) NOT NULL,
   PRIMARY KEY (`rateno`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- like 테이블 생성
 CREATE TABLE `like` (
   `likeno` int(11) NOT NULL AUTO_INCREMENT,
-  `id` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `id` varchar(50) NOT NULL,
   `storeno` int(11) NOT NULL,
   PRIMARY KEY (`likeno`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- 'purchase' 테이블 생성
 CREATE TABLE `purchase` (
@@ -92,18 +92,18 @@ CREATE TABLE `purchase` (
   `quantity` int NOT NULL,
   `id` varchar(50) NOT NULL,
   PRIMARY KEY (`transactionid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- 사용자 테이블 생성
 CREATE TABLE `favorite` (
   `registrationno` int(11) NOT NULL AUTO_INCREMENT,
-  `memberId` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `memberId` varchar(50) NOT NULL,
   `favoriteLatitude` FLOAT NOT NULL,
   `favoriteLongitude` FLOAT NOT NULL,
-  `location_code` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `location_code` varchar(50) NOT NULL,
   PRIMARY KEY (`registrationno`),
   FOREIGN KEY (`memberId`) REFERENCES `member` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- sample data 입력
 -- Insert sample data into 'member' table
