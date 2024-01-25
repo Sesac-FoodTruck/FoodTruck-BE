@@ -9,9 +9,9 @@ const upload = multer({ dest: '/images/stores/' });
 // Register basic info of the store
 // 매장 등록
 router.post('/storeRegister', upload.single('photos'), getConnection, async (req, res) => {
-    console.log('입력:', req.body);
     const { storename, storetime, categoryid, storeweek, contact, account, latitude, longitude, confirmed, memberid } = req.body;
     const photos = req.file ? req.file.path : '';
+    console.log('입력:', req.body);
 
     try {
         const insertQuery = 'INSERT INTO store (storename, storetime, categoryid, storeweek, photos, contact, account, latitude, longitude, confirmed, memberid) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';

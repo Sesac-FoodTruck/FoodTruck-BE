@@ -97,12 +97,12 @@ CREATE TABLE `purchase` (
 -- 사용자 테이블 생성
 CREATE TABLE `favorite` (
   `registrationno` int(11) NOT NULL AUTO_INCREMENT,
-  `memberId` varchar(50) NOT NULL,
+  `id` varchar(50) NOT NULL,
   `favoriteLatitude` FLOAT NOT NULL,
   `favoriteLongitude` FLOAT NOT NULL,
   `location_code` varchar(50) NOT NULL,
   PRIMARY KEY (`registrationno`),
-  FOREIGN KEY (`memberId`) REFERENCES `member` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  FOREIGN KEY (`id`) REFERENCES `member` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- sample data 입력
@@ -255,7 +255,7 @@ INSERT INTO `like` (`id`, `storeno`) VALUES
     ('b0d23e64-4c2d-46dd-b71d-d9d1f933d87d', 18);
 
 -- Insert sample data into 'favorite' table
-INSERT INTO `favorite` (`memberId`, `favoriteLatitude`, `favoriteLongitude`, `location_code`) VALUES
+INSERT INTO `favorite` (`id`, `favoriteLatitude`, `favoriteLongitude`, `location_code`) VALUES
     ('44a191bf-7f3a-49e0-8e38-c5c3dd4a096e', 37.568071, 127.054374, 'office'),
     ('44a191bf-7f3a-49e0-8e38-c5c3dd4a096e', 37.567680, 127.053881, 'myplace'),
     ('a1d36768-5f9a-4ab3-99e1-3f8d66adff51', 37.567039, 127.053072,'myplace'),
