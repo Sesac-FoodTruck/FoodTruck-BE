@@ -95,35 +95,6 @@ router.put('/member', getConnection, async (req, res) => {
     }
 });
 
-// // Favorite 등록
-// router.post('/favoriteRegister', getConnection, async (req, res) => {
-//     const { id, favoriteLatitude, favoriteLongitude, location_code } = req.body;
-
-//     try {
-//         const insertQuery = 'INSERT INTO favorite (id, favoriteLatitude, favoriteLongitude, location_code) VALUES (?, ?, ?, ?)';
-//         await req.dbConnection.query(insertQuery, [id, favoriteLatitude, favoriteLongitude, location_code]);
-//         res.status(201).json({ message: "Favorite 등록 성공" });
-//     } catch (error) {
-//         console.error("Favorite 등록 실패:", error);
-//         res.status(500).json({ error: "Favorite 등록 실패" });
-//     }
-// });
-
-// // Favorite 정보 업데이트
-// router.put('/favoriteUpdate/:registrationno', getConnection, async (req, res) => {
-//     const registrationno = req.params.registrationno;
-//     const { memberId, favoriteLatitude, favoriteLongitude, location_code } = req.body;
-
-//     try {
-//         const updateQuery = 'UPDATE favorite SET id = ?, favoriteLatitude = ?, favoriteLongitude = ?, location_code = ? WHERE registrationno = ?';
-//         await req.dbConnection.query(updateQuery, [id, favoriteLatitude, favoriteLongitude, location_code, registrationno]);
-//         res.status(200).json({ message: "Favorite 업데이트 성공" });
-//     } catch (error) {
-//         console.error("Favorite 업데이트 실패:", error);
-//         res.status(500).json({ error: "Favorite 업데이트 실패" });
-//     }
-// });
-
 // Favorite 등록 (using GET request with query parameters)
 router.get('/favoriteRegister', getConnection, async (req, res) => {
     const { id, favoriteLatitude, favoriteLongitude, location_code } = req.query;
@@ -151,24 +122,6 @@ router.put('/favoriteUpdate', getConnection, async (req, res) => {
         res.status(500).json({ error: "Favorite 업데이트 실패", details: error.message });
     }
 });
-
-
-
-// // Favorite 정보 업데이트 (using PUT request with query parameters)
-// router.put('/favoriteUpdate', getConnection, async (req, res) => {
-//     const { favoriteno, id, favoriteLatitude, favoriteLongitude, location_code } = req.query;
-
-//     try {
-//         const updateQuery = 'UPDATE favorite SET id = ?, favoriteLatitude = ?, favoriteLongitude = ?, location_code = ? WHERE  = ?';
-//         await req.dbConnection.query(updateQuery, [id, favoriteLatitude, favoriteLongitude, location_code, registrationno]);
-//         res.status(200).json({ message: "Favorite 업데이트 성공" });
-//     } catch (error) {
-//         console.error("Favorite 업데이트 실패:", error);
-//         res.status(500).json({ error: "Favorite 업데이트 실패" });
-//     }
-// });
-
-
 
 
 module.exports = router;

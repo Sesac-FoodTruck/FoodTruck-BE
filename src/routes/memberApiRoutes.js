@@ -4,7 +4,7 @@ const router = express.Router();
 // 회원 ID를 기준으로 옵션(like, review, report, rate, favorite 데이터 조회)
 // 옵션은 &option={옵션1}&option={옵션2}.... 형식
 router.get('/memberapi', async (req, res) => {
-    const memberId = req.query.member;
+    const id = req.query.member;
     const options = Array.isArray(req.query.option) ? req.query.option : [req.query.option];
 
     try {
@@ -30,15 +30,12 @@ router.get('/memberapi', async (req, res) => {
                 case 'report':
                     query = buildQuery('report');
                     break;
-                case 'rate':
-                    query = buildQuery('rate');
-                    break;
                 default:
                     continue;
             }
 
-            console.log(`Executing query: ${query} with memberId: ${memberId}`);
-            const [rows] = await req.dbConnection.query(query, [memberId]);
+            console.log(`Executing query: ${query} with id: ${id}`);
+            const [rows] = await req.dbConnection.query(query, [id]);
             console.log(`Query results: `, rows);
 
             if (rows.length > 0) {
