@@ -4,12 +4,18 @@
 // 매장정보 불러오는 함수
 readData();
 async function readData() {
-
 }
 
 window.onload = async function () {
+    // 오늘 날짜
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+    today = yyyy + '-' + mm + '-' + dd;
+    document.getElementById("purchase_date").value = today;
 
-    // POST : 댓글 - 완료 
+    // POST : 리뷰 - 완료 
     const reviewForm = document.getElementById("reviewForm");
     reviewForm.addEventListener("submit", function (event) {
         event.preventDefault();
@@ -17,39 +23,12 @@ window.onload = async function () {
         const id = document.getElementById("review_id").value;
         const storeno = document.getElementById("review_storeno").value;
         const storecontent = document.getElementById("storecontent").value;
-
-        axios.post(url + '/truck/review'
-            , {
-                id: id,
-                storeno: storeno,
-                storecontent: storecontent
-            })
-            .then(function (response) {
-                console.log(response.data);
-                const { isSuccess, code, message } = response.data;
-
-                if (!isSuccess || code !== 200) {
-                    alert(message);
-                }
-                readData();
-            })
-            .catch(function (error) {
-                console.log(error);
-                alert("Error");
-            });
-    });
-    // POST : 별점 - 완료
-    const ratingForm = document.getElementById("rateForm");
-    ratingForm.addEventListener("submit", function (event) {
-        event.preventDefault();
-
-        const id = document.getElementById("rate_id").value;
-        const storeno = document.getElementById("rate_storeno").value;
         const storerate = document.getElementById("storerate").value;
 
-        axios.post(url + '/truck/rate', {
+        axios.post(url + '/truck/review', {
             id: id,
             storeno: storeno,
+            storecontent: storecontent,
             storerate: storerate
         })
             .then(function (response) {
@@ -59,7 +38,7 @@ window.onload = async function () {
                 if (!isSuccess || code !== 200) {
                     alert(message);
                 }
-                readData();
+                // readData();
             })
             .catch(function (error) {
                 console.log(error);
@@ -86,7 +65,7 @@ window.onload = async function () {
                 if (!isSuccess || code !== 200) {
                     alert(message);
                 }
-                readData();
+                // readData();
             })
             .catch(function (error) {
                 console.log(error);
@@ -112,49 +91,21 @@ window.onload = async function () {
                 if (!isSuccess || code !== 200) {
                     alert(message);
                 }
-                readData();
+                // readData();
             })
             .catch(function (error) {
                 console.log(error);
                 alert("Error");
             });
     });
-    // POST : 즐겨찾기
-    const favoriteForm = document.getElementById("favoriteForm");
-    favoriteForm.addEventListener("submit", function (event) {
-        event.preventDefault();
+    // POST : 가계부 등록 : 하단
 
-        const id = document.getElementById("favorite_id").value;
-        const storeno = document.getElementById("favorite_storeno").value;
+    let truckId = "";
+    if (!truckId) return;
 
-        axios.post(url + '/mypage/favorite', {
-            id: id,
-            storeno: storeno,
-        })
-            .then(function (response) {
-                console.log(response.data);
-                const { isSuccess, code, message } = response.data;
-
-                if (!isSuccess || code !== 200) {
-                    alert(message);
-                }
-                readData();
-            })
-            .catch(function (error) {
-                console.log(error);
-                alert("Error");
-            });
-    });
-    // POST : 가계부 등록 : 외부로
-
-    let storeno = "";
-    if (!storeno) return;
-
-    // GET : Store
-
-    // GET : 댓글 
+    // GET: 댓글
     try {
-        const res = await axios.get(url + `/truck/review/${storeno}`);
+        const res = await axios.get(url + `/truck/review/${truckId}`);
 
         if (res.data.code !== 200) {
             alert(res.data.message);
@@ -165,22 +116,10 @@ window.onload = async function () {
     } catch (err) {
         console.log(err);
     }
-    // GET : 별점
-    try {
-        const res = await axios.get(url + `/truck/rate/${storeno}`);
 
-        if (res.data.code !== 200) {
-            alert(res.data.message);
-            return false;
-        }
-        const rateData = res.data;
-        console.log(rateData);
-    } catch (err) {
-        console.log(err);
-    }
     // GET : 매장 상세정보
     try {
-        const res = await axios.get(url + `/truck/detail/${storeno}`);
+        const res = await axios.get(url + `/truck/detail/${truckId}`);
 
         if (res.data.code !== 200) {
             alert(res.data.message);
@@ -191,6 +130,10 @@ window.onload = async function () {
     } catch (err) {
         console.log(err);
     }
+
+    let id = "";
+    if (!id) return;
+
     // GET : 가계부
     try {
         const res = await axios.get(url + `/account/${id}`);
@@ -204,19 +147,19 @@ window.onload = async function () {
     } catch (err) {
         console.log(err);
     }
-
 }
 
 // POST : 가계부 등록
-// const purchaseForm = document.getElementById("purchaseForm");
-function submitForm(menuName) {
+async function submitForm(menuName) {
     document.getElementById("purchase_iteminformation").value = menuName;
 
     const id = document.getElementById("purchase_id").value;
+    const date = document.getElementById("purchase_date").value;
     const iteminformation = document.getElementById("purchase_iteminformation").value;
 
-    axios.post(url + '/account/menu', {
+    await axios.post(url + '/account/menu', {
         id: id,
+        date: date,
         iteminformation: iteminformation,
     })
         .then(function (response) {
@@ -232,4 +175,56 @@ function submitForm(menuName) {
             console.log(error);
             alert("Error");
         });
+}
+
+// PATCH : 가계부 수정  
+function changeQuantity(menuName, factor) {
+    document.getElementById("purchase_iteminformation").value = menuName;
+
+    const id = document.getElementById("purchase_id").value;
+    const date = document.getElementById("purchase_date").value;
+    const iteminformation = document.getElementById("purchase_iteminformation").value;
+
+    // axios.put(url + '/account?date=${data}&menu=${menuName}&method=${method}')
+    axios.patch(url + '/account/menu/modify', {
+        id: id,
+        date: date,
+        iteminformation: iteminformation,
+        factor: factor,
+    })
+        .then(function (response) {
+            console.log(response.data);
+            const { isSuccess, code, message } = response.data;
+
+            if (!isSuccess || code !== 200) {
+                alert(message);
+            }
+            // readData();
+        })
+        .catch(function (error) {
+            console.log(error);
+            alert("Error");
+        });
+}
+
+// DELETE : 가계부 삭제 
+async function deleteItem(menuName) {
+    document.getElementById("purchase_iteminformation").value = menuName;
+
+    const id = document.getElementById("purchase_id").value;
+    const date = document.getElementById("purchase_date").value;
+    const iteminformation = document.getElementById("purchase_iteminformation").value;
+
+    try {
+        const res = await axios.delete(url + `/account/delete?id=${id}&date=${date}&menu=${iteminformation}`);
+
+        if (res.data.code !== 200) {
+            alert(res.data.message);
+            return false;
+        }
+        const accountData = res.data;
+        console.log(accountData);
+    } catch (err) {
+        console.log(err);
+    }
 }

@@ -6,6 +6,8 @@ exports.databaseSecret = {
     user: "truck-client",
     port: "3306",
     password: "111111",
-    // database: "yummytruckDB"
-    database: "foodtruck"
+    database: "foodtruck",
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0
 }

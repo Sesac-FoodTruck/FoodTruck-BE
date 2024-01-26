@@ -2,22 +2,35 @@
 CREATE TABLE `member` (
   `id` varchar(50) NOT NULL,
   `nickname` varchar(50) DEFAULT NULL,
+<<<<<<< HEAD
   `profileimg` text,
   `social_id` text NOT NULL,
   `social_code` int NOT NULL,
   `social_token` text NOT NULL,
+=======
+  `profileimg` varchar(255),
+  `social_id` text NOT NULL,
+  `social_code` int(11) NOT NULL,
+  `social_token` VARCHAR(255) NOT NULL,
+>>>>>>> 437fab1fad591f1def7ebe0a538a8e0fc06ec451
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- 매장분류 테이블 생성
 CREATE TABLE `foodcategory` (
+<<<<<<< HEAD
   `categoryid` int NOT NULL,
   `categoryname` varchar(50) DEFAULT NULL,
+=======
+  `categoryid` int(11) NOT NULL,
+  `categoryname` varchar(50) CHARACTER SET utf8 DEFAULT NULL,
+>>>>>>> 437fab1fad591f1def7ebe0a538a8e0fc06ec451
   PRIMARY KEY (`categoryid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- 매장 테이블 생성
 CREATE TABLE `store` (
+<<<<<<< HEAD
   `storeno` INT NOT NULL AUTO_INCREMENT,
   `storename` VARCHAR(50) NOT NULL,
   `storetime` VARCHAR(50) DEFAULT NULL,
@@ -33,6 +46,23 @@ CREATE TABLE `store` (
   `id` varchar(50) NOT NULL,
   `reportcount` int DEFAULT NULL,
   PRIMARY KEY (`storeno`)
+=======
+  `storeno` INT(11) NOT NULL AUTO_INCREMENT,
+  `storename` VARCHAR(50) NOT NULL,
+  `storetime` VARCHAR(50) DEFAULT NULL,
+  `categoryid` INT(11) NOT NULL,
+  `storeweek` VARCHAR(50) DEFAULT NULL,
+  `photos` VARCHAR(50) DEFAULT NULL,
+  `contact` VARCHAR(20) DEFAULT NULL,
+  `account` VARCHAR(30) DEFAULT NULL,
+  `latitude` FLOAT NOT NULL,
+  `longitude` FLOAT NOT NULL,
+  `confirmed` INT(11) NOT NULL,
+  `memberid` varchar(50) NOT NULL,
+  PRIMARY KEY (`storeno`),
+  FOREIGN KEY (`categoryid`) REFERENCES `foodcategory` (`categoryid`) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (`memberid`) REFERENCES `member` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+>>>>>>> 437fab1fad591f1def7ebe0a538a8e0fc06ec451
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 -- 매장메뉴 생성
@@ -43,22 +73,35 @@ CREATE TABLE `item` (
   `iteminformation` VARCHAR(45) NULL,
   `itemprice` INT NULL,
   `storeno` INT NOT NULL, -- store 테이블의 storeno와 연결되는 외래 키
+<<<<<<< HEAD
   PRIMARY KEY (`itemid`)
+=======
+  PRIMARY KEY (`iditem`),
+  FOREIGN KEY (`storeno`) REFERENCES `store` (`storeno`) ON DELETE CASCADE ON UPDATE CASCADE
+>>>>>>> 437fab1fad591f1def7ebe0a538a8e0fc06ec451
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- 매장 review
 CREATE TABLE `review` (
+<<<<<<< HEAD
   `reviewno` int NOT NULL AUTO_INCREMENT,
   `id` varchar(50) NOT NULL,
   `storeno` int NOT NULL,
   `storecontent` varchar(50) CHARACTER SET utf8 NOT NULL,
   `rating` int NOT NULL,
+=======
+  `reviewno` int(11) NOT NULL AUTO_INCREMENT,
+  `id` varchar(50) NOT NULL,
+  `storeno` int(11) NOT NULL,
+  `storecontent` varchar(50) CHARACTER SET utf8 NOT NULL,
+>>>>>>> 437fab1fad591f1def7ebe0a538a8e0fc06ec451
   `revietime` datetime NOT NULL,
   PRIMARY KEY (`reviewno`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- 매장 report
 CREATE TABLE `report` (
+<<<<<<< HEAD
   `reportno` int NOT NULL AUTO_INCREMENT,
   `id` varchar(50) NOT NULL,
   `storeno` int NOT NULL,
@@ -71,10 +114,46 @@ CREATE TABLE `like` (
   `id` varchar(50) NOT NULL,
   `storeno` int NOT NULL,
   PRIMARY KEY (`likeno`)
+=======
+  `reportno` int(11) NOT NULL AUTO_INCREMENT,
+  `id` varchar(50) NOT NULL,
+  `storeno` int(11) NOT NULL,
+  PRIMARY KEY (`reportno`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 매장 rate
+CREATE TABLE `rate` (
+  `rateno` int(11) NOT NULL AUTO_INCREMENT,
+  `id` varchar(50) NOT NULL,
+  `storeno` int(11) NOT NULL,
+  `storerate` int(11) NOT NULL,
+  PRIMARY KEY (`rateno`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- like 테이블 생성
+CREATE TABLE `like` (
+  `likeno` int(11) NOT NULL AUTO_INCREMENT,
+  `id` varchar(50) NOT NULL,
+  `storeno` int(11) NOT NULL,
+  PRIMARY KEY (`likeno`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 'purchase' 테이블 생성
+CREATE TABLE `purchase` (
+  `transactionid` int(11) NOT NULL AUTO_INCREMENT,
+  `date` date NOT NULL,
+  `storeno` int(11) NOT NULL,
+  `itemid` varchar(50) NOT NULL,
+  `price` int NOT NULL,
+  `quantity` int NOT NULL,
+  `id` varchar(50) NOT NULL,
+  PRIMARY KEY (`transactionid`)
+>>>>>>> 437fab1fad591f1def7ebe0a538a8e0fc06ec451
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- 사용자 테이블 생성
 CREATE TABLE `favorite` (
+<<<<<<< HEAD
   `favoriteno` int NOT NULL AUTO_INCREMENT,
   `id` varchar(50) NOT NULL,
   `favoriteLatitude` FLOAT NOT NULL,
@@ -82,6 +161,15 @@ CREATE TABLE `favorite` (
   `location_code` varchar(50) NOT NULL,
   PRIMARY KEY (`favoriteno`),
   FOREIGN KEY (`id`) REFERENCES `member` (`id`)
+=======
+  `registrationno` int(11) NOT NULL AUTO_INCREMENT,
+  `memberId` varchar(50) NOT NULL,
+  `favoriteLatitude` FLOAT NOT NULL,
+  `favoriteLongitude` FLOAT NOT NULL,
+  `location_code` varchar(50) NOT NULL,
+  PRIMARY KEY (`registrationno`),
+  FOREIGN KEY (`memberId`) REFERENCES `member` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+>>>>>>> 437fab1fad591f1def7ebe0a538a8e0fc06ec451
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- sample data 입력
@@ -219,13 +307,36 @@ INSERT INTO `like` (`id`, `storeno`) VALUES
     ('b0d23e64-4c2d-46dd-b71d-d9d1f933d87d', 18);
 
 -- Insert sample data into 'favorite' table
+<<<<<<< HEAD
 INSERT INTO `favorite` (`id`, `favoriteLatitude`, `favoriteLongitude`, `location_code`) VALUES
+=======
+INSERT INTO `favorite` (`memberId`, `favoriteLatitude`, `favoriteLongitude`, `location_code`) VALUES
+>>>>>>> 437fab1fad591f1def7ebe0a538a8e0fc06ec451
     ('44a191bf-7f3a-49e0-8e38-c5c3dd4a096e', 37.568071, 127.054374, 'office'),
     ('44a191bf-7f3a-49e0-8e38-c5c3dd4a096e', 37.567680, 127.053881, 'myplace'),
     ('a1d36768-5f9a-4ab3-99e1-3f8d66adff51', 37.567039, 127.053072,'myplace'),
     ('c35df8e2-5d8b-46ef-bd08-9c614c4db07d', 37.567039, 127.058072,'home'),
     ('9aee8a47-8c53-4c61-8ee9-245ab25165e5', 37.563519, 127.053677,'home'),
     ('d6c78083-28e4-4b61-a8f6-c1e0a189d0af', 37.567219, 127.013677,'myplace'),
+<<<<<<< HEAD
     ('d6c78083-28e4-4b61-a8f6-c1e0a189d0af', 37.567519, 127.053077,'home'),
     ('a1d36768-5f9a-4ab3-99e1-3f8d66adff51', 37.567334, 127.053445,'office'),
     ('a1d36768-5f9a-4ab3-99e1-3f8d66adff51', 37.568071, 127.054374,'home');
+=======
+    ('d6c78083-28e4-4b61-a8f6-c1e0a189d0af', 37.567519, 127.053077,'myplace'),
+    ('a1d36768-5f9a-4ab3-99e1-3f8d66adff51', 37.567334, 127.053445,'office'),
+    ('a1d36768-5f9a-4ab3-99e1-3f8d66adff51', 37.568071, 127.054374,'office');
+
+-- Insert sample data into 'purchase' table
+INSERT INTO `purchase` (`date`, `storeno`, `itemid`, `price`, `quantity`, `id`) VALUES
+    ('2023-01-01', 11, 1, 5000, 2, '6f8eab40-7f0a-4c15-8bc3-d5d99d30be60'),
+    ('2023-01-02', 12, 3, 7000, 3, 'd41a74e1-985a-43d8-92c9-67ab2c7d7e9f'),
+    ('2023-01-03', 13, 5, 3000, 1, 'd41a74e1-985a-43d8-92c9-67ab2c7d7e9f'),
+    ('2023-01-04', 13, 6, 2000, 2, 'a1d36768-5f9a-4ab3-99e1-3f8d66adff51'),
+    ('2023-01-05', 14, 7, 6000, 1, '9aee8a47-8c53-4c61-8ee9-245ab25165e5'),
+    ('2023-01-06', 14, 8, 3500, 2, '44a191bf-7f3a-49e0-8e38-c5c3dd4a096e'),
+    ('2023-01-07', 14, 5, 3000, 3, '44a191bf-7f3a-49e0-8e38-c5c3dd4a096e'),
+    ('2023-01-08', 17, 1, 5000, 1, 'b0d23e64-4c2d-46dd-b71d-d9d1f933d87d'),
+    ('2023-01-09', 17, 3, 7000, 2, 'b04f6ff6-22b3-48c8-b6f9-7a8468cf9099'),
+    ('2023-01-10', 18, 6, 2000, 1, 'b04f6ff6-22b3-48c8-b6f9-7a8468cf9099');
+>>>>>>> 437fab1fad591f1def7ebe0a538a8e0fc06ec451

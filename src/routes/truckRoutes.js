@@ -1,7 +1,11 @@
 const express = require('express');
 const axios = require('axios');
 const router = express.Router();
+<<<<<<< HEAD
 const getConnection = require('../middleware/database'); // getConnection 미들웨어를 임포트
+=======
+const { getConnection } = require('../middleware/database.js'); // getConnection 미들웨어를 임포트
+>>>>>>> 437fab1fad591f1def7ebe0a538a8e0fc06ec451
 const fs = require('fs'); // 파일 시스템 모듈 추가
 const multer = require('multer');
 const upload = multer({ dest: '/images/stores/' });
@@ -9,9 +13,15 @@ const upload = multer({ dest: '/images/stores/' });
 // Register basic info of the store
 // 매장 등록
 router.post('/storeRegister', upload.single('photos'), getConnection, async (req, res) => {
+<<<<<<< HEAD
     const { storename, storetime, categoryid, storeweek, contact, account, latitude, longitude, confirmed, memberid } = req.body;
     const photos = req.file ? req.file.path : '';
     console.log('입력:', req.body);
+=======
+    console.log('입력:', req.body);
+    const { storename, storetime, categoryid, storeweek, contact, account, latitude, longitude, confirmed, memberid } = req.body;
+    const photos = req.file ? req.file.path : '';
+>>>>>>> 437fab1fad591f1def7ebe0a538a8e0fc06ec451
 
     try {
         const insertQuery = 'INSERT INTO store (storename, storetime, categoryid, storeweek, photos, contact, account, latitude, longitude, confirmed, memberid) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
