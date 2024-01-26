@@ -40,12 +40,13 @@ nunjucks.configure(path.join(__dirname, '/src/views'), {
 });
 
 app.use(getConnection);
-app.use(frontRoutes);
+app.use(mainRoutes);
 app.use(registerRoutes);
-app.use(memberRoutes); // 맴버 기본정보
-app.use(memberApiRoutes); // 맴버 활동 활동
-app.use(calculateRoutes); // 거리별 트럭(매장) 조회 라우트 모듈 사용
-app.use(truckRoutes); // 트럭(매장) 등록 및 업데이트 및 갱신
+app.use(purchaseRoutes);
+app.use(mypageRoutes);
+app.use(memberRoutes);
+app.use(memberApiRoutes);
+app.use(calculateRoutes); // 매장 조회 라우트 모듈 사용
 
 // body json 파싱
 app.use(express.json());
