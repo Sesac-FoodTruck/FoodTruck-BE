@@ -1,0 +1,63 @@
+<!-- this script : index.html -->
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>야미트럭</title>
+</head>
+
+<style>
+    .done-text-container {
+        display: flex;
+        align-items: center;
+    }
+</style>
+
+<body>
+    <h1>야미트럭 : AWS EC2 서버 배포</h1>
+    <h3>● URL : https://www.yummytruck.store</h3>
+    <h3>● Database : MySQL 연동</h3>
+    <hr style="height:2px; border:none; color:#333; background-color:#333;">
+
+    <div class="matrix-container">
+        <div class="matrix-item" id="decide">
+            <div class="matrix-item-header">
+                <div class"matrix-item-title">
+                    <h2>ㅡ 매장페이지</h2>
+                </div>
+                <input class="matrix-input" type="text" placeholder="입력후 엔터" maxlength="50" />
+            </div>
+            <ul class="matrix-item-list"></ul>
+        </div>
+        <div class="matrix-item" id="do">
+            <div class="matrix-item-header">
+                <div class"matrix-item-title">
+                    <h2>ㅡ 마이페이지</h2>
+                </div>
+                <input class="matrix-input" type="text" placeholder="입력후 엔터" maxlength="50" />
+            </div>
+            <ul class="matrix-item-list"></ul>
+        </div>
+        <div class="matrix-item" id="delegate">
+            <div class="matrix-item-header">
+                <div class"matrix-item-title">
+                    <h2>ㅡ 가계부</h2>
+                </div>
+                <input class="matrix-input" type="text" placeholder="입력후 엔터" maxlength="50" />
+            </div>
+            <ul class="matrix-item-list"></ul>
+        </div>
+
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.3/axios.min.js"
+        integrity="sha512-JWQFV6OCC2o2x8x46YrEeFEQtzoNV++r9im8O8stv91YwHNykzIS2TbvAlFdeH0GVlpnyd79W0ZGmffcRi++Bw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer">
+        </script>
+    <script src="./js/common.js"></script>
+    <script src="./js/index.js"></script>
+</body>
+
+</html>
