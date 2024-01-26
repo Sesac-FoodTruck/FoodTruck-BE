@@ -38,7 +38,7 @@ router.get('/memberapi', async (req, res) => {
             }
 
             console.log(`Executing query: ${query} with memberId: ${memberId}`);
-            const [rows] = await req.connection.query(query, [memberId]);
+            const [rows] = await req.dbConnection.query(query, [memberId]);
             console.log(`Query results: `, rows);
 
             if (rows.length > 0) {

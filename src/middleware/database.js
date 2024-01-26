@@ -8,12 +8,15 @@ const pool = mysql2.createPool(dbConfig);
 async function getConnection(req, res, next) {
     try {
         // 데이터베이스 연결 풀에서 연결을 가져옵니다.
-        req.connection = await pool.getConnection();
+        const connection = await pool.getConnection();
+
+        // 연결을 req 객체에 저장합니다.
+        req.dbConnection = connection;
 
         // 요청 처리가 끝난 후 연결을 해제하는 콜백을 등록합니다.
         res.on('finish', () => {
             // 연결 해제
-            req.connection.release();
+            connection.release();
         });
 
         // 다음 미들웨어로 이동
@@ -26,4 +29,4 @@ async function getConnection(req, res, next) {
 }
 
 // getConnection 미들웨어 함수를 모듈로 내보냅니다.
-module.exports = getConnection;
+module.exports = { getConnection, pool };

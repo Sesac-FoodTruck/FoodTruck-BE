@@ -1,15 +1,25 @@
 {
   "cSpell.words": [
+    "ARRAYAGG",
     "autoescape",
     "categoryid",
+    "categoryname",
     "CURDATE",
+    "foodcategory",
     "foodtruck",
+    "itembuyprice",
     "itemid",
     "iteminformation",
     "itemprice",
+    "itempricesum",
+    "itemquantity",
+    "memberid",
     "mypage",
+    "profileimg",
     "revietime",
     "reviewtime",
+    "shpark",
+    "signin",
     "storecontent",
     "storename",
     "storeno",
@@ -17,6 +27,9 @@
     "storetime",
     "storeweek",
     "todos",
+    "transactionid",
+    "truckid",
+    "uuidv",
     "yummytruck"
   ]
 }

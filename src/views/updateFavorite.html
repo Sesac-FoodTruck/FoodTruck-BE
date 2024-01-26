@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Same as registerFavorite.html -->
+</head>
+<body>
+    <h1>등록위치 업데이트</h1>
+    <form id="updateFavoriteForm">
+        <label for="registrationno">Registration No:</label>
+        <input type="number" id="registrationno" placeholder="Registration No" required><br>
+
+        <label for="favoriteLatitude">위도:</label>
+        <input type="number" id="favoriteLatitude" placeholder="Latitude" required step="0.000001"><br>
+
+        <label for="favoriteLongitude">경도:</label>
+        <input type="number" id="favoriteLongitude" placeholder="Longitude" required step="0.000001"><br>
+
+        <label>위치구분:</label>
+        <input type="radio" id="home" name="location_code" value="home">
+        <label for="home">Home</label>
+        <input type="radio" id="office" name="location_code" value="office">
+        <label for="office">Office</label>
+        <input type="radio" id="etc" name="location_code" value="etc">
+        <label for="etc">Etc</label><br>
+
+        <button type="submit">등록위치 업데이트</button>
+    </form>
+
+    <script src="/updateFavorite.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</body>
+</html>

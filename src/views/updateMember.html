@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Member</title>
+</head>
+<body>
+    <h1>사용자 정보 업데이트</h1>
+    <form id="updateForm">
+        <label for="id">사용자 ID:</label>
+        <input type="text" id="memberId" placeholder="Enter Member ID" required><br>
+
+        <label for="nickname">닉네임:</label>
+        <input type="text" id="nickname" placeholder="Nickname"><br>
+
+        <!-- Image Upload -->
+        <div class="button">
+            <label for="chooseFile"> >> 이미지첨부 << </label>
+        </div>
+        <input type="file" id="chooseFile" name="chooseFile" accept="image/*"><br>
+
+        <label for="social_id">Social ID:</label>
+        <input type="text" id="social_id" placeholder="Social ID"><br>
+
+        <label for="social_code">Social Code:</label>
+        <input type="number" id="social_code" placeholder="Social Code"><br>
+
+        <label for="social_token">Social Token:</label>
+        <input type="text" id="social_token" placeholder="Social Token"><br>
+
+        <button type="submit">사용자 정보 업데이트</button>
+    </form>
+
+    <script src="/updateMember.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</body>
+</html>

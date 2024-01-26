@@ -1,38 +1,39 @@
 -- 사용자 테이블 생성
 CREATE TABLE `member` (
-  `id` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `nickname` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
-  `profileimg` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci,
-  `social_id` text COLLATE utf8_unicode_ci NOT NULL,
+  `id` varchar(50) NOT NULL,
+  `nickname` varchar(50) DEFAULT NULL,
+  `profileimg` varchar(255),
+  `social_id` text NOT NULL,
   `social_code` int(11) NOT NULL,
+  `social_token` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- 매장분류 테이블 생성
 CREATE TABLE `foodcategory` (
   `categoryid` int(11) NOT NULL,
-  `categoryname` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `categoryname` varchar(50) CHARACTER SET utf8 DEFAULT NULL,
   PRIMARY KEY (`categoryid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- 매장 테이블 생성
 CREATE TABLE `store` (
   `storeno` INT(11) NOT NULL AUTO_INCREMENT,
-  `storename` VARCHAR(50) COLLATE utf8_unicode_ci NOT NULL,
-  `storetime` VARCHAR(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `storename` VARCHAR(50) NOT NULL,
+  `storetime` VARCHAR(50) DEFAULT NULL,
   `categoryid` INT(11) NOT NULL,
-  `storeweek` VARCHAR(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `photos` VARCHAR(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `contact` VARCHAR(20) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `account` VARCHAR(30) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `storeweek` VARCHAR(50) DEFAULT NULL,
+  `photos` VARCHAR(50) DEFAULT NULL,
+  `contact` VARCHAR(20) DEFAULT NULL,
+  `account` VARCHAR(30) DEFAULT NULL,
   `latitude` FLOAT NOT NULL,
   `longitude` FLOAT NOT NULL,
   `confirmed` INT(11) NOT NULL,
-  `memberid` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `memberid` varchar(50) NOT NULL,
   PRIMARY KEY (`storeno`),
   FOREIGN KEY (`categoryid`) REFERENCES `foodcategory` (`categoryid`) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (`memberid`) REFERENCES `member` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 -- 매장메뉴 생성
 CREATE TABLE `item` (
@@ -44,44 +45,44 @@ CREATE TABLE `item` (
   `storeno` INT NOT NULL, -- store 테이블의 storeno와 연결되는 외래 키
   PRIMARY KEY (`iditem`),
   FOREIGN KEY (`storeno`) REFERENCES `store` (`storeno`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- 매장 review
 CREATE TABLE `review` (
   `reviewno` int(11) NOT NULL AUTO_INCREMENT,
-  `id` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `id` varchar(50) NOT NULL,
   `storeno` int(11) NOT NULL,
-  `storecontent` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `storecontent` varchar(50) CHARACTER SET utf8 NOT NULL,
   `revietime` datetime NOT NULL,
   PRIMARY KEY (`reviewno`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- 매장 report
 CREATE TABLE `report` (
   `reportno` int(11) NOT NULL AUTO_INCREMENT,
-  `id` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `id` varchar(50) NOT NULL,
   `storeno` int(11) NOT NULL,
   PRIMARY KEY (`reportno`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- 매장 rate
 CREATE TABLE `rate` (
   `rateno` int(11) NOT NULL AUTO_INCREMENT,
-  `id` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `id` varchar(50) NOT NULL,
   `storeno` int(11) NOT NULL,
   `storerate` int(11) NOT NULL,
   PRIMARY KEY (`rateno`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- like 테이블 생성
 CREATE TABLE `like` (
   `likeno` int(11) NOT NULL AUTO_INCREMENT,
-  `id` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `id` varchar(50) NOT NULL,
   `storeno` int(11) NOT NULL,
   PRIMARY KEY (`likeno`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- 'purchase' 테이블 생성 (이 부분이 데이터 삽입 전에 와야 함)
+-- 'purchase' 테이블 생성
 CREATE TABLE `purchase` (
   `transactionid` int(11) NOT NULL AUTO_INCREMENT,
   `date` date NOT NULL,
@@ -91,31 +92,34 @@ CREATE TABLE `purchase` (
   `quantity` int NOT NULL,
   `id` varchar(50) NOT NULL,
   PRIMARY KEY (`transactionid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- 사용자 테이블 생성
 CREATE TABLE `favorite` (
   `registrationno` int(11) NOT NULL AUTO_INCREMENT,
-  `id` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `storeno` int(11) NOT NULL,
-  PRIMARY KEY (`registrationno`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `memberId` varchar(50) NOT NULL,
+  `favoriteLatitude` FLOAT NOT NULL,
+  `favoriteLongitude` FLOAT NOT NULL,
+  `location_code` varchar(50) NOT NULL,
+  PRIMARY KEY (`registrationno`),
+  FOREIGN KEY (`memberId`) REFERENCES `member` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- sample data 입력
 -- Insert sample data into 'member' table
-INSERT INTO `member` (`id`, `nickname`, `profileimg`, `social_id`, `social_code`) VALUES
-    ('d41a74e1-985a-43d8-92c9-67ab2c7d7e9f', '먹순이', '/images/members/d41a74e1-985a-43d8-92c9-67ab2c7d7e9f.jpg', 'john@gmail.com', 1),
-    ('6f8eab40-7f0a-4c15-8bc3-d5d99d30be60', '조인성', '/images/members/6f8eab40-7f0a-4c15-8bc3-d5d99d30be60.jpg', 'alice@kakao.com', 2),
-    ('b04f6ff6-22b3-48c8-b6f9-7a8468cf9099', '차태현', '/images/members/b04f6ff6-22b3-48c8-b6f9-7a8468cf9099.jpg', 'bob@gmail.com', 1),
-    ('a1d36768-5f9a-4ab3-99e1-3f8d66adff51', '한소희', '/images/members/a1d36768-5f9a-4ab3-99e1-3f8d66adff51.jpg', 'eva@gmail.com', 1),
-    ('7c2e9db8-3ac2-4822-bf93-1d22c5f139bc', '박서준', '/images/members/7c2e9db8-3ac2-4822-bf93-1d22c5f139bc.jpg', 'mike@gmail.com', 1),
-    ('d6c78083-28e4-4b61-a8f6-c1e0a189d0af', '김고은', '/images/members/d6c78083-28e4-4b61-a8f6-c1e0a189d0af.jpg', 'sara@kakao.com', 2),
-    ('b0d23e64-4c2d-46dd-b71d-d9d1f933d87d', '김유신', NULL, 'daniel@kakao.com', 2),
-    ('9aee8a47-8c53-4c61-8ee9-245ab25165e5', '박형식', NULL, 'olivia@gmail.com', 1),
-    ('c35df8e2-5d8b-46ef-bd08-9c614c4db07d', '김다미', NULL, 'lucas@kakao.com', 2),
-    ('44a191bf-7f3a-49e0-8e38-c5c3dd4a096e', '김태리', NULL, 'sophia@kakao.com', 2);
+INSERT INTO `member` (`id`, `nickname`, `profileimg`, `social_id`, `social_code`, `social_token`) VALUES
+('d41a74e1-985a-43d8-92c9-67ab2c7d7e9f', '먹순이', '/images/members/d41a74e1-985a-43d8-92c9-67ab2c7d7e9f.jpg', 'john@gmail.com', 1, 'G-abcdef123456'),
+('6f8eab40-7f0a-4c15-8bc3-d5d99d30be60', '조인성', '/images/members/6f8eab40-7f0a-4c15-8bc3-d5d99d30be60.jpg', 'alice@kakao.com', 2, 'K-123456abcdef'),
+('b04f6ff6-22b3-48c8-b6f9-7a8468cf9099', '차태현', '/images/members/b04f6ff6-22b3-48c8-b6f9-7a8468cf9099.jpg', 'bob@gmail.com', 1, 'G-789xyz987654'),
+('a1d36768-5f9a-4ab3-99e1-3f8d66adff51', '한소희', '/images/members/a1d36768-5f9a-4ab3-99e1-3f8d66adff51.jpg', 'eva@gmail.com', 1, 'G-abc123xyz789'),
+('7c2e9db8-3ac2-4822-bf93-1d22c5f139bc', '박서준', '/images/members/7c2e9db8-3ac2-4822-bf93-1d22c5f139bc.jpg', 'mike@gmail.com', 1, 'G-xyz987abc123'),
+('d6c78083-28e4-4b61-a8f6-c1e0a189d0af', '김고은', '/images/members/d6c78083-28e4-4b61-a8f6-c1e0a189d0af.jpg', 'sara@kakao.com', 2, 'K-abcdef654321'),
+('b0d23e64-4c2d-46dd-b71d-d9d1f933d87d', '김유신', NULL, 'daniel@kakao.com', 2, 'K-123abc456def'),
+('9aee8a47-8c53-4c61-8ee9-245ab25165e5', '박형식', NULL, 'olivia@gmail.com', 1, 'G-654321fedcba'),
+('c35df8e2-5d8b-46ef-bd08-9c614c4db07d', '김다미', NULL, 'lucas@kakao.com', 2, 'K-def456abc123'),
+('44a191bf-7f3a-49e0-8e38-c5c3dd4a096e', '김태리', NULL, 'sophia@kakao.com', 2, 'K-456def123abc');
 
--- Insert sample data for the `foodcategory` table
+-- Insert sample data for the `foodcategory` tablegit 
 INSERT INTO `foodcategory` (`categoryid`, `categoryname`) VALUES
     (1, '야식'),
     (2, '샐러드'),
@@ -251,17 +255,16 @@ INSERT INTO `like` (`id`, `storeno`) VALUES
     ('b0d23e64-4c2d-46dd-b71d-d9d1f933d87d', 18);
 
 -- Insert sample data into 'favorite' table
-INSERT INTO `favorite` (`id`, `storeno`) VALUES
-    ('44a191bf-7f3a-49e0-8e38-c5c3dd4a096e', 11),
-    ('44a191bf-7f3a-49e0-8e38-c5c3dd4a096e', 11),
-    ('a1d36768-5f9a-4ab3-99e1-3f8d66adff51', 13),
-    ('c35df8e2-5d8b-46ef-bd08-9c614c4db07d', 13),
-    ('9aee8a47-8c53-4c61-8ee9-245ab25165e5', 16),
-    ('d6c78083-28e4-4b61-a8f6-c1e0a189d0af', 16),
-    ('d6c78083-28e4-4b61-a8f6-c1e0a189d0af', 16),
-    ('a1d36768-5f9a-4ab3-99e1-3f8d66adff51', 17),
-    ('b04f6ff6-22b3-48c8-b6f9-7a8468cf9099', 17),
-    ('b04f6ff6-22b3-48c8-b6f9-7a8468cf90995', 18);
+INSERT INTO `favorite` (`memberId`, `favoriteLatitude`, `favoriteLongitude`, `location_code`) VALUES
+    ('44a191bf-7f3a-49e0-8e38-c5c3dd4a096e', 37.568071, 127.054374, 'office'),
+    ('44a191bf-7f3a-49e0-8e38-c5c3dd4a096e', 37.567680, 127.053881, 'myplace'),
+    ('a1d36768-5f9a-4ab3-99e1-3f8d66adff51', 37.567039, 127.053072,'myplace'),
+    ('c35df8e2-5d8b-46ef-bd08-9c614c4db07d', 37.567039, 127.058072,'home'),
+    ('9aee8a47-8c53-4c61-8ee9-245ab25165e5', 37.563519, 127.053677,'home'),
+    ('d6c78083-28e4-4b61-a8f6-c1e0a189d0af', 37.567219, 127.013677,'myplace'),
+    ('d6c78083-28e4-4b61-a8f6-c1e0a189d0af', 37.567519, 127.053077,'myplace'),
+    ('a1d36768-5f9a-4ab3-99e1-3f8d66adff51', 37.567334, 127.053445,'office'),
+    ('a1d36768-5f9a-4ab3-99e1-3f8d66adff51', 37.568071, 127.054374,'office');
 
 -- Insert sample data into 'purchase' table
 INSERT INTO `purchase` (`date`, `storeno`, `itemid`, `price`, `quantity`, `id`) VALUES

@@ -13,7 +13,7 @@ const calculateDistance = (lat1, lon1, lat2, lon2) => {
     return radius * c * 1000; // Distance in meters
 };
 
-router.get("/", async (req, res) => {
+router.get("/calculate", async (req, res) => {
     const latitude = parseFloat(req.query.latitude);
     const longitude = parseFloat(req.query.longitude);
     const distance = parseFloat(req.query.distance);
@@ -45,12 +45,12 @@ router.get("/", async (req, res) => {
     if (categoryId) {
         query += ' AND categoryId = ?';
         queryParams.push(categoryId);
-    }
+    };
 
     query += ' LIMIT 10;';
 
     try {
-        const [rows] = await req.connection.query(query, queryParams);
+        const [rows] = await req.dbConnection.query(query, queryParams);
 
         // Calculate distance for each store and add it to the response
         const storesWithDistance = rows.map(store => {
