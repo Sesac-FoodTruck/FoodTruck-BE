@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Same as registerFavorite.html -->
+    <!-- ... -->
+    <title>Favorite Update</title>
 </head>
 <body>
-    <h1>등록위치 업데이트</h1>
+    <h1>즐겨찾기 위치 업데이트</h1>
     <form id="updateFavoriteForm">
-        <label for="registrationno">Registration No:</label>
-        <input type="number" id="registrationno" placeholder="Registration No" required><br>
+        <label for="favoriteno">favorite No:</label>
+        <input type="text" id="favoriteno" placeholder="favorite No" required><br>
+        <label for="id">id:</label>
+        <input type="text" id="id" placeholder="id" required><br>
 
         <label for="favoriteLatitude">위도:</label>
         <input type="number" id="favoriteLatitude" placeholder="Latitude" required step="0.000001"><br>
@@ -23,7 +26,7 @@
         <input type="radio" id="etc" name="location_code" value="etc">
         <label for="etc">Etc</label><br>
 
-        <button type="submit">등록위치 업데이트</button>
+        <button type="submit">즐겨찾기 위치 업데이트</button>
     </form>
 
     <script src="/updateFavorite.js"></script>

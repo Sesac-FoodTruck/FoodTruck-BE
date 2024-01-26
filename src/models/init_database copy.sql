@@ -2,10 +2,10 @@
 CREATE TABLE `member` (
   `id` varchar(50) NOT NULL,
   `nickname` varchar(50) DEFAULT NULL,
-  `profileimg` text,
+  `profileimg` varchar(255),
   `social_id` text NOT NULL,
-  `social_code` int NOT NULL,
-  `social_token` text NOT NULL,
+  `social_code` int(11) NOT NULL,
+  `social_token` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -96,13 +96,13 @@ CREATE TABLE `purchase` (
 
 -- 사용자 테이블 생성
 CREATE TABLE `favorite` (
-  `favoriteno` int NOT NULL AUTO_INCREMENT,
+  `registrationno` int(11) NOT NULL AUTO_INCREMENT,
   `id` varchar(50) NOT NULL,
   `favoriteLatitude` FLOAT NOT NULL,
   `favoriteLongitude` FLOAT NOT NULL,
   `location_code` varchar(50) NOT NULL,
-  PRIMARY KEY (`favoriteno`),
-  FOREIGN KEY (`id`) REFERENCES `member` (`id`)
+  PRIMARY KEY (`registrationno`),
+  FOREIGN KEY (`id`) REFERENCES `member` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- sample data 입력

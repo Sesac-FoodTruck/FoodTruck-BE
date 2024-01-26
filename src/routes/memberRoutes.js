@@ -38,10 +38,15 @@ router.get('/member', getConnection, async (req, res) => {
     }
 });
 
+// 공통 에러 처리 함수
+const handleDatabaseError = (error, res) => {
+    console.error("DB 처리 에러:", error);
+    res.status(500).json({ error: "DB 처리 failed" });
+};
+
 // 사용자 등록
 router.post('/memberRegister', upload.single('profileimg'), getConnection, async (req, res) => {
-    const id = uuidv4(); // UUID 생성
-    console.log(`uuid 생성 아이디: ${id}`);
+    const id = uuidv4();
     const { nickname, social_id, social_code, social_token } = req.body;
     const profileimg = req.file ? req.file.path : '';
 
@@ -50,49 +55,82 @@ router.post('/memberRegister', upload.single('profileimg'), getConnection, async
         await req.dbConnection.query(insertQuery, [id, nickname, profileimg, social_id, social_code, social_token]);
         res.status(201).json({ message: "사용자 등록 성공", id: id });
     } catch (error) {
-        console.error("사용자 등록 실패:", error);
-        res.status(500).json({ error: "사용자 등록 실패" });
+        handleDatabaseError(error, res);
     }
 });
 
 // ID를 기준으로 멤버 삭제
-router.delete('/member/:id', getConnection, async (req, res) => {
-    const memberId = req.params.id;
+router.delete('/member', getConnection, async (req, res) => {
+    const id = req.query.id;
+
+    if (!id) {
+        return res.status(400).json({ error: "사용자ID 공백" });
+    }
 
     try {
         const deleteQuery = 'DELETE FROM member WHERE id = ?';
-        await req.dbConnection.query(deleteQuery, [memberId]);
-
-        res.status(200).json({ message: "Member deleted successfully" });
+        await req.dbConnection.query(deleteQuery, [id]); // id 변수 사용
+        res.status(200).json({ message: "사용자정보 삭제 성공" });
     } catch (error) {
-        console.error("Delete error:", error);
-        res.status(500).json({ error: "Error deleting member" });
+        handleDatabaseError(error, res);
     }
 });
 
 // ID를 기준으로 멤버 정보 업데이트
-router.put('/member/:id', getConnection, async (req, res) => {
-    const memberId = req.params.id;
+router.put('/member', getConnection, async (req, res) => {
+    const id = req.query.id;
+
+    if (!id) {
+        return res.status(400).json({ error: "사용자ID 공백" });
+    }
+
     const { nickname, profileimg, social_id, social_code, social_token } = req.body;
 
     try {
         const updateQuery = 'UPDATE member SET nickname = ?, profileimg = ?, social_id = ?, social_code = ?, social_token = ? WHERE id = ?';
-        await req.dbConnection.query(updateQuery, [nickname, profileimg, social_id, social_code, social_token, memberId]);
-
-        res.status(200).json({ message: "Member updated successfully" });
+        await req.dbConnection.query(updateQuery, [nickname, profileimg, social_id, social_code, social_token, id]);
+        res.status(200).json({ message: "사용자정보 업데이트 성공" });
     } catch (error) {
-        console.error("Update error:", error);
-        res.status(500).json({ error: "Error updating member" });
+        handleDatabaseError(error, res);
     }
 });
 
-// Favorite 등록
-router.post('/favoriteRegister', getConnection, async (req, res) => {
-    const { memberId, favoriteLatitude, favoriteLongitude, location_code } = req.body;
+// // Favorite 등록
+// router.post('/favoriteRegister', getConnection, async (req, res) => {
+//     const { id, favoriteLatitude, favoriteLongitude, location_code } = req.body;
+
+//     try {
+//         const insertQuery = 'INSERT INTO favorite (id, favoriteLatitude, favoriteLongitude, location_code) VALUES (?, ?, ?, ?)';
+//         await req.dbConnection.query(insertQuery, [id, favoriteLatitude, favoriteLongitude, location_code]);
+//         res.status(201).json({ message: "Favorite 등록 성공" });
+//     } catch (error) {
+//         console.error("Favorite 등록 실패:", error);
+//         res.status(500).json({ error: "Favorite 등록 실패" });
+//     }
+// });
+
+// // Favorite 정보 업데이트
+// router.put('/favoriteUpdate/:registrationno', getConnection, async (req, res) => {
+//     const registrationno = req.params.registrationno;
+//     const { memberId, favoriteLatitude, favoriteLongitude, location_code } = req.body;
+
+//     try {
+//         const updateQuery = 'UPDATE favorite SET id = ?, favoriteLatitude = ?, favoriteLongitude = ?, location_code = ? WHERE registrationno = ?';
+//         await req.dbConnection.query(updateQuery, [id, favoriteLatitude, favoriteLongitude, location_code, registrationno]);
+//         res.status(200).json({ message: "Favorite 업데이트 성공" });
+//     } catch (error) {
+//         console.error("Favorite 업데이트 실패:", error);
+//         res.status(500).json({ error: "Favorite 업데이트 실패" });
+//     }
+// });
+
+// Favorite 등록 (using GET request with query parameters)
+router.get('/favoriteRegister', getConnection, async (req, res) => {
+    const { id, favoriteLatitude, favoriteLongitude, location_code } = req.query;
 
     try {
-        const insertQuery = 'INSERT INTO favorite (memberId, favoriteLatitude, favoriteLongitude, location_code) VALUES (?, ?, ?, ?)';
-        await req.dbConnection.query(insertQuery, [memberId, favoriteLatitude, favoriteLongitude, location_code]);
+        const insertQuery = 'INSERT INTO favorite (id, favoriteLatitude, favoriteLongitude, location_code) VALUES (?, ?, ?, ?)';
+        await req.dbConnection.query(insertQuery, [id, favoriteLatitude, favoriteLongitude, location_code]);
         res.status(201).json({ message: "Favorite 등록 성공" });
     } catch (error) {
         console.error("Favorite 등록 실패:", error);
@@ -101,19 +139,36 @@ router.post('/favoriteRegister', getConnection, async (req, res) => {
 });
 
 // Favorite 정보 업데이트
-router.put('/favoriteUpdate/:registrationno', getConnection, async (req, res) => {
-    const registrationno = req.params.registrationno;
-    const { memberId, favoriteLatitude, favoriteLongitude, location_code } = req.body;
+router.put('/favoriteUpdate', getConnection, async (req, res) => {
+    const { favoriteno, id, favoriteLatitude, favoriteLongitude, location_code } = req.query;
 
     try {
-        const updateQuery = 'UPDATE favorite SET memberId = ?, favoriteLatitude = ?, favoriteLongitude = ?, location_code = ? WHERE registrationno = ?';
-        await req.dbConnection.query(updateQuery, [memberId, favoriteLatitude, favoriteLongitude, location_code, registrationno]);
+        const updateQuery = 'UPDATE favorite SET id = ?, favoriteLatitude = ?, favoriteLongitude = ?, location_code = ? WHERE favoriteno = ?';
+        await req.dbConnection.query(updateQuery, [id, favoriteLatitude, favoriteLongitude, location_code, favoriteno]);
         res.status(200).json({ message: "Favorite 업데이트 성공" });
     } catch (error) {
         console.error("Favorite 업데이트 실패:", error);
-        res.status(500).json({ error: "Favorite 업데이트 실패" });
+        res.status(500).json({ error: "Favorite 업데이트 실패", details: error.message });
     }
 });
+
+
+
+// // Favorite 정보 업데이트 (using PUT request with query parameters)
+// router.put('/favoriteUpdate', getConnection, async (req, res) => {
+//     const { favoriteno, id, favoriteLatitude, favoriteLongitude, location_code } = req.query;
+
+//     try {
+//         const updateQuery = 'UPDATE favorite SET id = ?, favoriteLatitude = ?, favoriteLongitude = ?, location_code = ? WHERE  = ?';
+//         await req.dbConnection.query(updateQuery, [id, favoriteLatitude, favoriteLongitude, location_code, registrationno]);
+//         res.status(200).json({ message: "Favorite 업데이트 성공" });
+//     } catch (error) {
+//         console.error("Favorite 업데이트 실패:", error);
+//         res.status(500).json({ error: "Favorite 업데이트 실패" });
+//     }
+// });
+
+
 
 
 module.exports = router;
