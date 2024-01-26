@@ -29,4 +29,4 @@ async function getConnection(req, res, next) {
 }
 
 // getConnection 미들웨어 함수를 모듈로 내보냅니다.
-module.exports = { getConnection, pool };
+module.exports = getConnection;

@@ -1,7 +1,7 @@
 const express = require('express');
 const axios = require('axios');
 const router = express.Router();
-const { getConnection } = require('../middleware/database.js'); // getConnection 미들웨어를 임포트
+const getConnection = require('../middleware/database'); // getConnection 미들웨어를 임포트
 const fs = require('fs'); // 파일 시스템 모듈 추가
 const multer = require('multer');
 const upload = multer({ dest: '/images/stores/' });

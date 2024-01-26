@@ -1,7 +1,7 @@
 const mysql2 = require('mysql2/promise');
 const fs = require('fs');
 const path = require('path');
-const { dbConfig } = require('../config/dbConfig.js');
+const dbConfig = require('../config/dbConfig');
 
 const pool = mysql2.createPool(dbConfig);
 
@@ -35,4 +35,4 @@ async function executeSQLScript() {
     }
 }
 
-module.exports = executeSQLScript;
+module.exports = executeSQLScript ;
