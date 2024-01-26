@@ -1,5 +1,5 @@
 const app = require("./app");
-const executeSQLScript = require("./src/scripts/executeSQLScript");
+const { executeSQLScript } = require("./src/scripts/executeSQLScript.js");
 const port = 5000;
 
 // DB 초기화 후 Express 앱 실행 

@@ -1,5 +1,5 @@
 const mysql2 = require("mysql2/promise");
-const dbConfig = require("../config/dbConfig");
+const { dbConfig } = require("../config/dbConfig.js");
 
 // 데이터베이스 연결 풀 생성
 const pool = mysql2.createPool(dbConfig);
@@ -29,4 +29,4 @@ async function getConnection(req, res, next) {
 }
 
 // getConnection 미들웨어 함수를 모듈로 내보냅니다.
-module.exports = getConnection;
+module.exports = { getConnection, pool };

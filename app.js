@@ -6,13 +6,13 @@ const cors = require('cors');
 const serveFavicon = require('serve-favicon');
 const compression = require('compression');
 const { indexRouter } = require('./src/router/indexRouter.js');
-const getConnection = require('./src/middleware/database');
+const { getConnection } = require('./src/middleware/database.js');
 const app = express();
-const port = 3000;
+const port = 5000;
 
 // 라우트 모듈 임포트
 const frontRoutes = require('./src/routes/frontRoutes'); // 프론트 입력 테스트용 
-const registerRoutes = require('./src/routes/registerRoutes'); 
+const registerRoutes = require('./src/routes/registerRoutes');
 const memberRoutes = require('./src/routes/memberRoutes');  // 맴버 정보 api 엔드포인트
 const memberApiRoutes = require('./src/routes/memberApiRoutes');  // 맴버의 like, report(신고), review, rate, favorite 리스트
 const calculateRoutes = require('./src/routes/calculateRoutes');  // 위도+경도+거리 로 매장리스트+거리 제공 api
@@ -28,7 +28,7 @@ app.use(cors({
     credentials: true,
 }));
 
-// expres.json() 미들웨어
+// express.json() 미들웨어
 app.use(express.json());
 
 app.set('view engine', 'html');
@@ -39,14 +39,13 @@ nunjucks.configure(path.join(__dirname, '/src/views'), {
     noCache: true
 });
 
-app.use(getConnection);
-app.use(mainRoutes);
+// app.use(getConnection);
+app.use(frontRoutes);
 app.use(registerRoutes);
-app.use(purchaseRoutes);
-app.use(mypageRoutes);
-app.use(memberRoutes);
-app.use(memberApiRoutes);
-app.use(calculateRoutes); // 매장 조회 라우트 모듈 사용
+app.use(memberRoutes); // 맴버 기본정보
+app.use(memberApiRoutes); // 맴버 활동 활동
+app.use(calculateRoutes); // 거리별 트럭(매장) 조회 라우트 모듈 사용
+app.use(truckRoutes); // 트럭(매장) 등록 및 업데이트 및 갱신
 
 // body json 파싱
 app.use(express.json());
