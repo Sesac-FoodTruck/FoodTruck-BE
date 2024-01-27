@@ -1,31 +1,18 @@
 const express = require('express');
 const axios = require('axios');
 const router = express.Router();
-<<<<<<< HEAD
-const getConnection = require('../middleware/database'); // getConnection 미들웨어를 임포트
-=======
-const { getConnection } = require('../middleware/database.js'); // getConnection 미들웨어를 임포트
->>>>>>> 437fab1fad591f1def7ebe0a538a8e0fc06ec451
-const fs = require('fs'); // 파일 시스템 모듈 추가
+const { getConnection } = require('../middleware/database');
+const fs = require('fs');
 const multer = require('multer');
-const upload = multer({ dest: '/images/stores/' });
+const upload = multer({ dest: 'public/images/stores/' });
 
-// Register basic info of the store
-// 매장 등록
 router.post('/storeRegister', upload.single('photos'), getConnection, async (req, res) => {
-<<<<<<< HEAD
-    const { storename, storetime, categoryid, storeweek, contact, account, latitude, longitude, confirmed, memberid } = req.body;
-    const photos = req.file ? req.file.path : '';
-    console.log('입력:', req.body);
-=======
-    console.log('입력:', req.body);
-    const { storename, storetime, categoryid, storeweek, contact, account, latitude, longitude, confirmed, memberid } = req.body;
-    const photos = req.file ? req.file.path : '';
->>>>>>> 437fab1fad591f1def7ebe0a538a8e0fc06ec451
+    const { storename, storetime, categoryid, storeweek, contact, account, payment, latitude, longitude, confirmed, id, location, reportcount } = req.body;     
+    const photos = req.file ? 'images/stores/' + req.file.filename : '';
 
     try {
-        const insertQuery = 'INSERT INTO store (storename, storetime, categoryid, storeweek, photos, contact, account, latitude, longitude, confirmed, memberid) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
-        await req.dbConnection.query(insertQuery, [storename, storetime, categoryid, storeweek, photos, contact, account, latitude, longitude, confirmed, memberid]);
+        const insertQuery = 'INSERT INTO store (storename, storetime, categoryid, storeweek, photos, contact, account, payment, latitude, longitude, location, confirmed, id, reportcount) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'; 
+        await req.dbConnection.query(insertQuery, [storename, storetime, categoryid, storeweek, photos, contact, account, payment, latitude, longitude, location, confirmed, id, reportcount]);
         res.status(201).json({ message: "매장 등록 성공" });
     } catch (error) {
         console.error("매장 등록 실패:", error);
@@ -33,16 +20,18 @@ router.post('/storeRegister', upload.single('photos'), getConnection, async (req
     }
 });
 
+router.put('/storeUpdate', upload.single('photos'), getConnection, async (req, res) => {
+    const storeno = req.query.storeno;
+    console.log("Received store number:", storeno);
+    console.log("Received body:", req.body); 
 
-// 매장 정보 업데이트
-router.put('/storeUpdate/:storeno', upload.single('photos'), getConnection, async (req, res) => {
-    const storeno = req.params.storeno;
-    const { storename, storetime, categoryid, storeweek, contact, account, latitude, longitude, confirmed, memberid } = req.body;
+    // Destructure all required fields from req.body
+    const { storename, storetime, categoryid, storeweek, contact, account, payment, latitude, longitude, confirmed, id, reportcount } = req.body;
     const photos = req.file ? req.file.path : '';
 
     try {
-        const updateQuery = 'UPDATE store SET storename = ?, storetime = ?, categoryid = ?, storeweek = ?, photos = ?, contact = ?, account = ?, latitude = ?, longitude = ?, confirmed = ?, memberid = ? WHERE storeno = ?';
-        await req.dbConnection.query(updateQuery, [storename, storetime, categoryid, storeweek, photos, contact, account, latitude, longitude, confirmed, memberid, storeno]);
+        const updateQuery = 'UPDATE store SET storename = ?, storetime = ?, categoryid = ?, storeweek = ?, photos = ?, contact = ?, account = ?, payment = ?, latitude = ?, longitude = ?, confirmed = ?, id = ?, reportcount = ? WHERE storeno = ?';
+        await req.dbConnection.query(updateQuery, [storename, storetime, categoryid, storeweek, photos, contact, account, payment, latitude, longitude, confirmed, id, reportcount, storeno]);
         res.status(200).json({ message: "매장 정보 업데이트 성공" });
     } catch (error) {
         console.error("매장 정보 업데이트 실패:", error);
@@ -50,13 +39,13 @@ router.put('/storeUpdate/:storeno', upload.single('photos'), getConnection, asyn
     }
 });
 
-
 // 메뉴 아이템 등록
 router.post('/itemRegister', upload.single('itemimgurl'), getConnection, async (req, res) => {
     const { itemname, iteminformation, itemprice, storeno } = req.body;
     const itemimgurl = req.file ? req.file.path : '';
 
     try {
+        // 데이터베이스 연결 및 쿼리 실행 코드 추가
         const insertQuery = 'INSERT INTO item (itemname, itemimgurl, iteminformation, itemprice, storeno) VALUES (?, ?, ?, ?, ?)';
         await req.dbConnection.query(insertQuery, [itemname, itemimgurl, iteminformation, itemprice, storeno]);
         res.status(201).json({ message: "메뉴 아이템 등록 성공" });
@@ -67,14 +56,14 @@ router.post('/itemRegister', upload.single('itemimgurl'), getConnection, async (
 });
 
 // 메뉴 아이템 업데이트
-router.put('/itemUpdate/:iditem', upload.single('itemimgurl'), getConnection, async (req, res) => {
-    const iditem = req.params.iditem;
+router.put('/itemUpdate', upload.single('itemimgurl'), getConnection, async (req, res) => {
+    const itemid = req.query.itemid; // 아이템 ID
     const { itemname, iteminformation, itemprice, storeno } = req.body;
     const itemimgurl = req.file ? req.file.path : '';
 
     try {
-        const updateQuery = 'UPDATE item SET itemname = ?, itemimgurl = ?, iteminformation = ?, itemprice = ?, storeno = ? WHERE iditem = ?';
-        await req.dbConnection.query(updateQuery, [itemname, itemimgurl, iteminformation, itemprice, storeno, iditem]);
+        // 데이터베이스 쿼리 실행
+        // 데이터베이스 연결 및 쿼리 실행 코드 추가
         res.status(200).json({ message: "메뉴 아이템 업데이트 성공" });
     } catch (error) {
         console.error("메뉴 아이템 업데이트 실패:", error);
@@ -82,24 +71,9 @@ router.put('/itemUpdate/:iditem', upload.single('itemimgurl'), getConnection, as
     }
 });
 
-// 매장 인증 정보 등록
-router.post('/storeConfirm/:storeno', getConnection, async (req, res) => {
-    const storeno = req.params.storeno;
-    const { confirmed } = req.body;
-
-    try {
-        const confirmQuery = 'UPDATE store SET confirmed = ? WHERE storeno = ?';
-        await req.dbConnection.query(confirmQuery, [confirmed, storeno]);
-        res.status(200).json({ message: "매장 인증 정보 등록 성공" });
-    } catch (error) {
-        console.error("매장 인증 정보 등록 실패:", error);
-        res.status(500).json({ error: "매장 인증 정보 등록 실패" });
-    }
-});
-
-// 매장 인증 정보 업데이트
-router.put('/storeConfirmUpdate/:storeno', getConnection, async (req, res) => {
-    const storeno = req.params.storeno;
+// 매장 인증 정보 업데이트 (PUT)
+router.put('/storeConfirmUpdate', getConnection, async (req, res) => {
+    const storeno = req.body.storeno; // URL에서 쿼리 스트링 대신 바디에서 storeno를 받음
     const { confirmed } = req.body;
 
     try {
@@ -111,9 +85,5 @@ router.put('/storeConfirmUpdate/:storeno', getConnection, async (req, res) => {
         res.status(500).json({ error: "매장 인증 정보 업데이트 실패" });
     }
 });
-
-
-
-
 
 module.exports = router;

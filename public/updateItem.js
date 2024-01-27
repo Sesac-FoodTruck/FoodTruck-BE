@@ -1,21 +1,16 @@
+// 서버 라우트에 맞춰 URL 수정
 document.getElementById('updateStoreForm').addEventListener('submit', function(e) {
     e.preventDefault();
 
-    var storeno = document.getElementById('storeno').value;
+    var itemid = document.getElementById('storeno').value; // 'itemid'로 변경 가능
     var formData = new FormData();
-    formData.append('storename', document.getElementById('storename').value);
-    formData.append('storetime', document.getElementById('storetime').value);
-    formData.append('categoryid', document.getElementById('categoryid').value);
-    formData.append('storeweek', document.getElementById('storeweek').value);
-    formData.append('photos', document.getElementById('photos').files[0]);
-    formData.append('contact', document.getElementById('contact').value);
-    formData.append('account', document.getElementById('account').value);
-    formData.append('latitude', document.getElementById('latitude').value);
-    formData.append('longitude', document.getElementById('longitude').value);
-    formData.append('confirmed', document.getElementById('confirmed').value);
-    formData.append('memberid', document.getElementById('memberid').value);
-
-    axios.put('/storeUpdate/' + storeno, formData, {
+    formData.append('itemname', document.getElementById('itemname').value);
+    formData.append('itemimgurl', document.getElementById('itemimgurl').files[0]);
+    formData.append('iteminformation', document.getElementById('iteminformation').value);
+    formData.append('itemprice', document.getElementById('itemprice').value);
+    formData.append('storeno', document.getElementById('storeno').value);
+    
+    axios.put('/itemUpdate?itemid=' + itemid, formData, { // URL 수정
         headers: {
             'Content-Type': 'multipart/form-data'
         }
@@ -29,3 +24,4 @@ document.getElementById('updateStoreForm').addEventListener('submit', function(e
         alert('Store update failed');
     });
 });
+

@@ -53,9 +53,9 @@ router.get("/updateItem", (req, res) => {
     res.render('updateItem.html');
 });
 
-router.get("/registerTruckComfirm", (req, res) => {
-    res.render('registerTruckComfirm.html');
-});
+// router.get("/registerTruckComfirm", (req, res) => {
+//     res.render('registerTruckComfirm.html');
+// });
 
 router.get("/updateTruckComfirm", (req, res) => {
     res.render('updateTruckComfirm.html');

@@ -9,10 +9,13 @@ document.getElementById('registerStoreForm').addEventListener('submit', function
     formData.append('photos', document.getElementById('photos').files[0]);
     formData.append('contact', document.getElementById('contact').value);
     formData.append('account', document.getElementById('account').value);
+    formData.append('payment', document.getElementById('payment').value);
     formData.append('latitude', document.getElementById('latitude').value);
     formData.append('longitude', document.getElementById('longitude').value);
+    formData.append('location', document.getElementById('location').value);
     formData.append('confirmed', document.getElementById('confirmed').value);
-    formData.append('memberid', document.getElementById('memberid').value);
+    formData.append('id', document.getElementById('id').value);
+    formData.append('reportcount', document.getElementById('reportcount').value);
 
     axios.post('/storeRegister', formData, {
         headers: {
@@ -21,10 +24,10 @@ document.getElementById('registerStoreForm').addEventListener('submit', function
     })
     .then(function(response) {
         console.log(response);
-        alert('Store registered successfully');
+        alert('매장 등록 완료!!');
     })
     .catch(function(error) {
-        console.error('Store registration failed', error);
-        alert('Store registration failed');
+        console.error('매장 등록 실패!!', error);
+        alert('등록 실패!!');
     });
 });

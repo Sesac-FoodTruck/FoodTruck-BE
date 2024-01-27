@@ -9,7 +9,7 @@
         <label for="itemname">메뉴 이름:</label>
         <input type="text" id="itemname" placeholder="Item Name" required><br>
         <label for="itemimgurl">메뉴 이미지:</label>
-        <input type="file" id="itemimgurl" accept="image/*"><br>
+        <input type="file" id="itemimgurl" name="itemimgurl" accept="image/*"><br>
         <label for="iteminformation">메뉴 정보:</label>
         <input type="text" id="iteminformation" placeholder="Item Information" required><br>
         <label for="itemprice">메뉴 가격:</label>
@@ -18,7 +18,7 @@
         <input type="number" id="storeno" placeholder="Store No" required><br>
         <button type="submit">메뉴 등록</button>
     </form>
-
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="/registerItem.js"></script>
 </body>
 </html>

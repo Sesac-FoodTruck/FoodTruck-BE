@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('updateFavoriteForm').addEventListener('submit', function (e) {
         e.preventDefault();
@@ -7,11 +6,18 @@ document.addEventListener('DOMContentLoaded', function() {
         var id = document.getElementById('id').value;
         var favoriteLatitude = document.getElementById('favoriteLatitude').value;
         var favoriteLongitude = document.getElementById('favoriteLongitude').value;
-        var location_code = document.querySelector('input[name="location_code"]:checked').value;
+        var locationRadio = document.querySelector('input[name="location_code"]:checked');
+        var location_code = locationRadio ? locationRadio.value : 'default';
 
-        var url = `/favoriteUpdate?favoriteno=${encodeURIComponent(favoriteno)}&id=${encodeURIComponent(id)}&favoriteLatitude=${encodeURIComponent(favoriteLatitude)}&favoriteLongitude=${encodeURIComponent(favoriteLongitude)}&location_code=${encodeURIComponent(location_code)}`;
+        var data = {
+            favoriteno: favoriteno,
+            id: id,
+            favoriteLatitude: favoriteLatitude,
+            favoriteLongitude: favoriteLongitude,
+            location_code: location_code
+        };
 
-        axios.put(url)
+        axios.put('/favoriteUpdate', data)
         .then(function (response) {
             console.log(response);
             alert('즐겨찾기 위치 업데이트 성공');
@@ -23,23 +29,4 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-=======
-// Similar to registerFavorite.js but with the following changes:
 
-document.getElementById('updateFavoriteForm').addEventListener('submit', function (e) {
-    e.preventDefault();
-
-    var registrationno = document.getElementById('registrationno').value;
-    // Rest of the formData remains the same
-
-    axios.put('/favoriteUpdate/' + registrationno, formData)
-    .then(function (response) {
-        console.log(response);
-        alert('Favorite 업데이트 성공');
-    })
-    .catch(function (error) {
-        console.log(error);
-        alert('Favorite 업데이트 실패');
-    });
-});
->>>>>>> 437fab1fad591f1def7ebe0a538a8e0fc06ec451

@@ -8,21 +8,38 @@
 <body>
     <h1>Update Store</h1>
     <form id="updateStoreForm" enctype="multipart/form-data">
-        <input type="number" id="storeno" placeholder="Store No" required><br>
+        <!-- Add Store Number -->
+        <label for="storeno">매장번호:</label>
+        <input type="number" id="storeno" placeholder="Store Number" required><br>
+        <label for="storename">매장명:</label>
         <input type="text" id="storename" placeholder="Store Name" required><br>
+        <label for="storetime">매장운영시간:</label>
         <input type="text" id="storetime" placeholder="Store Time" required><br>
+        <label for="categoryid">매장분류:</label>
         <input type="number" id="categoryid" placeholder="Category ID" required><br>
+        <label for="storeweek">주간운영요일:</label>
         <input type="text" id="storeweek" placeholder="Store Week" required><br>
+        <label for="photos">매장사진:</label>
         <input type="file" id="photos" accept="image/*"><br>
+        <label for="contact">연락처:</label>
         <input type="text" id="contact" placeholder="Contact" required><br>
+        <label for="account">계좌:</label>
         <input type="text" id="account" placeholder="Account" required><br>
-        <input type="number" id="latitude" placeholder="Latitude" required><br>
-        <input type="number" id="longitude" placeholder="Longitude" required><br>
+        <label for="payment">결제정보:</label>
+        <input type="text" id="payment" placeholder="Payment Info" required><br>
+        <label for="Latitude">위도:</label>
+        <input type="number" id="latitude" placeholder="Latitude" required step="0.000001"><br>
+        <label for="Longitude">경도:</label>
+        <input type="number" id="longitude" placeholder="Longitude" required step="0.000001"><br>
+        <label for="Confirmed">사진인증여부:</label>
         <input type="number" id="confirmed" placeholder="Confirmed" required><br>
-        <input type="text" id="memberid" placeholder="Member ID" required><br>
-        <button type="submit">Update</button>
+        <label for="Member ID">등록회원id:</label>
+        <input type="text" id="id" placeholder="Member ID" required><br>
+        <label for="reportcount">신고:</label>
+        <input type="number" id="reportcount" placeholder="Report Count" required><br>
+        <button type="submit">매장 업데이트</button>
     </form>
-
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="/updateTruck.js"></script>
 </body>
 </html>

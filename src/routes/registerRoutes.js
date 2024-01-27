@@ -5,6 +5,7 @@ router.get("/register", (req, res) => {
     res.render('register.html');
 });
 
+// 실제 등록과 상관없는 QR 테스트 페이지용 코드(에러 수정 못함)
 router.post('/register', async (req, res) => {
     const { name, latitude, longitude, additionalInfo } = req.body;
 

@@ -10,12 +10,14 @@ document.getElementById('updateStoreForm').addEventListener('submit', function(e
     formData.append('photos', document.getElementById('photos').files[0]);
     formData.append('contact', document.getElementById('contact').value);
     formData.append('account', document.getElementById('account').value);
+    formData.append('payment', document.getElementById('payment').value);
     formData.append('latitude', document.getElementById('latitude').value);
     formData.append('longitude', document.getElementById('longitude').value);
     formData.append('confirmed', document.getElementById('confirmed').value);
-    formData.append('memberid', document.getElementById('memberid').value);
+    formData.append('id', document.getElementById('id').value);
+    formData.append('reportcount', document.getElementById('reportcount').value);
 
-    axios.put('/storeUpdate/' + storeno, formData, {
+    axios.put('/storeUpdate?storeno=' + storeno, formData, {
         headers: {
             'Content-Type': 'multipart/form-data'
         }

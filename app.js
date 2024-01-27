@@ -12,15 +12,12 @@ const port = 5000;
 
 // 라우트 모듈 임포트
 const frontRoutes = require('./src/routes/frontRoutes'); // 프론트 입력 테스트용 
-<<<<<<< HEAD
 const registerRoutes = require('./src/routes/registerRoutes'); 
-=======
-const registerRoutes = require('./src/routes/registerRoutes');
->>>>>>> 437fab1fad591f1def7ebe0a538a8e0fc06ec451
 const memberRoutes = require('./src/routes/memberRoutes');  // 맴버 정보 api 엔드포인트
 const memberApiRoutes = require('./src/routes/memberApiRoutes');  // 맴버의 like, report(신고), review, rate, favorite 리스트
 const calculateRoutes = require('./src/routes/calculateRoutes');  // 위도+경도+거리 로 매장리스트+거리 제공 api
 const truckRoutes = require('./src/routes/truckRoutes')  // 푸드트럭 등록/갱신
+
 // Static
 app.use(express.static('public'));
 app.use(express.static('front'));
@@ -32,11 +29,7 @@ app.use(cors({
     credentials: true,
 }));
 
-<<<<<<< HEAD
 // expres.json() 미들웨어
-=======
-// express.json() 미들웨어
->>>>>>> 437fab1fad591f1def7ebe0a538a8e0fc06ec451
 app.use(express.json());
 
 app.set('view engine', 'html');
@@ -47,11 +40,7 @@ nunjucks.configure(path.join(__dirname, '/src/views'), {
     noCache: true
 });
 
-<<<<<<< HEAD
 app.use(getConnection);
-=======
-// app.use(getConnection);
->>>>>>> 437fab1fad591f1def7ebe0a538a8e0fc06ec451
 app.use(frontRoutes);
 app.use(registerRoutes);
 app.use(memberRoutes); // 맴버 기본정보
