@@ -65,7 +65,25 @@ exports.readStore = async function (storeno) {
 
         try {
             // 쿼리문
-            const selectStoreQuery = "SELECT s.storeno AS storeno, s.storename AS storename, (SELECT COUNT(*) FROM `like` WHERE storeno = s.storeno) AS `like`, (SELECT COUNT(*) FROM `report` WHERE storeno = s.storeno) AS `report`, s.location AS location, (SELECT categoryname FROM `foodcategory` WHERE categoryid=s.categoryid) AS `category`, s.contact AS contact, s.account AS account, s.storeweek AS businessDays, s.storetime AS businessTime, (SELECT JSON_ARRAYAGG(JSON_OBJECT('name', iteminformation, 'price', itemprice)) FROM `item` WHERE storeno=s.storeno) AS `menu`, (SELECT JSON_ARRAYAGG(JSON_OBJECT('name', m.nickname, 'rating', r.rating, 'comment', r.storecontent)) FROM review r JOIN member m on r.id=m.id WHERE r.storeno=s.storeno ORDER BY m.nickname) AS `review`, s.photos AS photo FROM `store` s WHERE s.storeno = ?;";
+            const selectStoreQuery =
+                `SELECT 
+                s.storeno AS storeno, 
+                s.storename AS storename, 
+                (SELECT COUNT(*) FROM \`like\` WHERE storeno = s.storeno) AS \`like\`, 
+                (SELECT COUNT(*) FROM \`report\` WHERE storeno = s.storeno) AS \`report\`, 
+                s.location AS location, 
+                (SELECT categoryname FROM \`foodcategory\` WHERE categoryid=s.categoryid) AS \`category\`,
+                s.contact AS contact, 
+                s.account AS account, 
+                s.storeweek AS businessDays, 
+                s.storetime AS businessTime, 
+                (SELECT JSON_ARRAYAGG(JSON_OBJECT('name', itemname, 'description', iteminformation, 'price', itemprice)) 
+                FROM \`item\` WHERE storeno=s.storeno) AS \`menu\`, 
+                (SELECT JSON_ARRAYAGG(JSON_OBJECT('name', m.nickname, 'rating', r.rating, 'comment', r.storecontent)) 
+                FROM review r JOIN member m on r.id=m.id WHERE r.storeno=s.storeno ORDER BY m.nickname) AS \`review\`, 
+                s.photos AS photo 
+                FROM \`store\` s 
+                WHERE s.storeno = ?;`;
             const selectStoreParams = [storeno];
 
             const [rows] = await connection.query(selectStoreQuery, selectStoreParams);
@@ -321,3 +339,8 @@ exports.deletePurchase = async function (id, date, iteminformation) {
         return false;
     }
 }
+
+
+
+
+

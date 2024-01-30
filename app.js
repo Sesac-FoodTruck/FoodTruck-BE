@@ -12,7 +12,7 @@ const port = 5000;
 
 // 라우트 모듈 임포트
 const frontRoutes = require('./src/routes/frontRoutes'); // 프론트 입력 테스트용 
-const registerRoutes = require('./src/routes/registerRoutes'); 
+const registerRoutes = require('./src/routes/registerRoutes');
 const memberRoutes = require('./src/routes/memberRoutes');  // 맴버 정보 api 엔드포인트
 const memberApiRoutes = require('./src/routes/memberApiRoutes');  // 맴버의 like, report(신고), review, rate, favorite 리스트
 const calculateRoutes = require('./src/routes/calculateRoutes');  // 위도+경도+거리 로 매장리스트+거리 제공 api
@@ -25,11 +25,11 @@ app.use('/public', express.static(path.join(__dirname, './public')));
 // cors : 보안수준 낮게
 app.use(cors({
     // origin: "http://localhost:3000",
-    origin: ['localhost:3000', 'localhost:5000', 'http://aws.amazon.com'],
+    origin: ['http://localhost:3000', 'http://localhost:5000', 'http://aws.amazon.com'],
     credentials: true,
 }));
 
-// expres.json() 미들웨어
+// express.json() 미들웨어
 app.use(express.json());
 
 app.set('view engine', 'html');
