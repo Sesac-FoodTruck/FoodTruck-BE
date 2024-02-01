@@ -53,6 +53,10 @@ router.get("/updateItem", (req, res) => {
     res.render('updateItem.html');
 });
 
+router.get("/login", (req, res) => {
+    res.render('login.html');
+});
+
 // router.get("/registerTruckComfirm", (req, res) => {
 //     res.render('registerTruckComfirm.html');
 // });

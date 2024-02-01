@@ -3,19 +3,34 @@ document.addEventListener('DOMContentLoaded', function () {
         e.preventDefault();
 
         var id = document.getElementById('id').value;
-        var formData = {
-            nickname: document.getElementById('nickname').value,
-            profileimg: document.getElementById('profileimg').value,
-            social_id: document.getElementById('social_id').value,
-            social_code: parseInt(document.getElementById('social_code').value),
-            social_token: document.getElementById('social_token').value
-        };
+        var formData = new FormData();
 
-        axios.put('member?id=' + id, formData, {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
+        var profileImgFile = document.getElementById('chooseFile').files[0];
+        if (profileImgFile) {
+            formData.append('profileimg', profileImgFile);
+        }
+
+        var nickname = document.getElementById('nickname').value;
+        if (nickname) {
+            formData.append('nickname', nickname);
+        }
+
+        var socialId = document.getElementById('social_id').value;
+        if (socialId) {
+            formData.append('social_id', socialId);
+        }
+
+        var socialCode = document.getElementById('social_code').value;
+        if (socialCode) {
+            formData.append('social_code', parseInt(socialCode));
+        }
+
+        var socialToken = document.getElementById('social_token').value;
+        if (socialToken) {
+            formData.append('social_token', socialToken);
+        }
+
+        axios.put('memberUpdate?id=' + id, formData)
         .then(function (response) {
             console.log(response);
             alert('사용자정보 업데이트 성공');
@@ -26,4 +41,3 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
-

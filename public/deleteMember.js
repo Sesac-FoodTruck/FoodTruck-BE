@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         var id = document.getElementById('id').value;
 
-        axios.delete('http://localhost:5000/member?id=' + id)
+        axios.delete('http://localhost:5000/memberDelete?id=' + id)
         .then(function (response) {
             console.log(response);
             alert('사용자정보 삭제 성공');

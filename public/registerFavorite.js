@@ -6,11 +6,14 @@ document.addEventListener('DOMContentLoaded', function() {
         var favoriteLatitude = document.getElementById('favoriteLatitude').value;
         var favoriteLongitude = document.getElementById('favoriteLongitude').value;
         var locationRadio = document.querySelector('input[name="location_code"]:checked');
-        var location_code = locationRadio ? locationRadio.value : 'default'; // Handle the case where no option is selected
+        var location_code = locationRadio ? locationRadio.value : 'default';
 
-        var url = `/favoriteRegister?id=${encodeURIComponent(id)}&favoriteLatitude=${encodeURIComponent(favoriteLatitude)}&favoriteLongitude=${encodeURIComponent(favoriteLongitude)}&location_code=${encodeURIComponent(location_code)}`;
-
-        axios.get(url)
+        axios.post('/favoriteRegister', {
+            id: id,
+            favoriteLatitude: favoriteLatitude,
+            favoriteLongitude: favoriteLongitude,
+            location_code: location_code
+        })
         .then(function (response) {
             console.log(response);
             alert('Favorite 등록 성공');
@@ -21,5 +24,3 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
-
-

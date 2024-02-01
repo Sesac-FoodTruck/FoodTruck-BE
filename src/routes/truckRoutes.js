@@ -39,13 +39,11 @@ router.put('/storeUpdate', upload.single('photos'), getConnection, async (req, r
     }
 });
 
-// 메뉴 아이템 등록
 router.post('/itemRegister', upload.single('itemimgurl'), getConnection, async (req, res) => {
     const { itemname, iteminformation, itemprice, storeno } = req.body;
-    const itemimgurl = req.file ? req.file.path : '';
+    const itemimgurl = req.file ? 'images/items/' + req.file.filename : ''; // 이미지 파일 경로 수정
 
     try {
-        // 데이터베이스 연결 및 쿼리 실행 코드 추가
         const insertQuery = 'INSERT INTO item (itemname, itemimgurl, iteminformation, itemprice, storeno) VALUES (?, ?, ?, ?, ?)';
         await req.dbConnection.query(insertQuery, [itemname, itemimgurl, iteminformation, itemprice, storeno]);
         res.status(201).json({ message: "메뉴 아이템 등록 성공" });
@@ -55,21 +53,53 @@ router.post('/itemRegister', upload.single('itemimgurl'), getConnection, async (
     }
 });
 
-// 메뉴 아이템 업데이트
+// // 메뉴 아이템 등록
+// router.post('/itemRegister', upload.single('itemimgurl'), getConnection, async (req, res) => {
+//     const { itemname, iteminformation, itemprice, storeno } = req.body;
+//     const itemimgurl = req.file ? req.file.path : '';
+
+//     try {
+//         // 데이터베이스 연결 및 쿼리 실행 코드 추가
+//         const insertQuery = 'INSERT INTO item (itemname, itemimgurl, iteminformation, itemprice, storeno) VALUES (?, ?, ?, ?, ?)';
+//         await req.dbConnection.query(insertQuery, [itemname, itemimgurl, iteminformation, itemprice, storeno]);
+//         res.status(201).json({ message: "메뉴 아이템 등록 성공" });
+//     } catch (error) {
+//         console.error("메뉴 아이템 등록 실패:", error);
+//         res.status(500).json({ error: "메뉴 아이템 등록 실패" });
+//     }
+// });
+
 router.put('/itemUpdate', upload.single('itemimgurl'), getConnection, async (req, res) => {
-    const itemid = req.query.itemid; // 아이템 ID
+    const itemid = req.query.itemid; 
     const { itemname, iteminformation, itemprice, storeno } = req.body;
-    const itemimgurl = req.file ? req.file.path : '';
+    const itemimgurl = req.file ? 'images/items/' + req.file.filename : ''; // 이미지 파일 경로 수정
 
     try {
         // 데이터베이스 쿼리 실행
-        // 데이터베이스 연결 및 쿼리 실행 코드 추가
+        const updateQuery = 'UPDATE item SET itemname = ?, itemimgurl = ?, iteminformation = ?, itemprice = ?, storeno = ? WHERE itemid = ?';
+        await req.dbConnection.query(updateQuery, [itemname, itemimgurl, iteminformation, itemprice, storeno, itemid]);
         res.status(200).json({ message: "메뉴 아이템 업데이트 성공" });
     } catch (error) {
         console.error("메뉴 아이템 업데이트 실패:", error);
         res.status(500).json({ error: "메뉴 아이템 업데이트 실패" });
     }
 });
+
+// // 메뉴 아이템 업데이트
+// router.put('/itemUpdate', upload.single('itemimgurl'), getConnection, async (req, res) => {
+//     const itemid = req.query.itemid; // 아이템 ID
+//     const { itemname, iteminformation, itemprice, storeno } = req.body;
+//     const itemimgurl = req.file ? req.file.path : '';
+
+//     try {
+//         // 데이터베이스 쿼리 실행
+//         // 데이터베이스 연결 및 쿼리 실행 코드 추가
+//         res.status(200).json({ message: "메뉴 아이템 업데이트 성공" });
+//     } catch (error) {
+//         console.error("메뉴 아이템 업데이트 실패:", error);
+//         res.status(500).json({ error: "메뉴 아이템 업데이트 실패" });
+//     }
+// });
 
 // 매장 인증 정보 업데이트 (PUT)
 router.put('/storeConfirmUpdate', getConnection, async (req, res) => {
