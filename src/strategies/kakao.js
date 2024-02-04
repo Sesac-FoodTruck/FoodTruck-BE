@@ -22,8 +22,7 @@ const dbConfig = {
 
 passport.use(new KakaoStrategy({
     clientID: process.env.KAKAO_CLIENT_ID,
-    callbackURL: process.env.KAKAO_CALLBACK_URL,
-    callbackURL: '/auth/kakao/callback'
+    callbackURL: 'https://www.yummytruck.store/auth/kakao/callback'
 }, kakaoStrategyCallback));
 
 async function kakaoStrategyCallback(accessToken, refreshToken, profile, done) {
