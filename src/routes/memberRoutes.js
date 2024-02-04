@@ -45,17 +45,36 @@ const handleDatabaseError = (error, res) => {
 };
 
 // 사용자 등록
+// router.post('/memberRegister', upload.single('profileimg'), getConnection, async (req, res) => {
+//     const id = uuidv4();
+//     const { nickname, social_id, social_code, social_token } = req.body;
+//     const profileimg = req.file ? req.file.path : '';
+
+//     try {
+//         const insertQuery = 'INSERT INTO member (id, nickname, profileimg, social_id, social_code, social_token) VALUES (?, ?, ?, ?, ?, ?)';
+//         await req.dbConnection.query(insertQuery, [id, nickname, profileimg, social_id, social_code, social_token]);
+//         res.status(201).json({ message: "사용자 등록 성공", id: id });
+//     } catch (error) {
+//         handleDatabaseError(error, res);
+//     }
+// });
 router.post('/memberRegister', upload.single('profileimg'), getConnection, async (req, res) => {
-    const id = uuidv4();
     const { nickname, social_id, social_code, social_token } = req.body;
-    const profileimg = req.file ? req.file.path : '';
+    
+    // 입력 값 검증
+    if (!nickname || !social_id || social_code === undefined || !social_token) {
+        return res.status(400).json({ error: "Missing required fields" });
+    }
 
     try {
+        const id = uuidv4();
+        const profileimg = req.file ? req.file.path : '';
         const insertQuery = 'INSERT INTO member (id, nickname, profileimg, social_id, social_code, social_token) VALUES (?, ?, ?, ?, ?, ?)';
         await req.dbConnection.query(insertQuery, [id, nickname, profileimg, social_id, social_code, social_token]);
         res.status(201).json({ message: "사용자 등록 성공", id: id });
     } catch (error) {
-        handleDatabaseError(error, res);
+        console.error("Database error:", error);
+        res.status(500).json({ error: "Database error", details: error.message });
     }
 });
 
