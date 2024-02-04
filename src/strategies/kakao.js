@@ -2,7 +2,8 @@ const passport = require('passport');
 const KakaoStrategy = require('passport-kakao').Strategy;
 const axios = require('axios');
 require('dotenv').config();
-const { url } = require('../../front/js/common.js');
+// const url = '127.0.0.1:4000';
+const url = 'https://www.yummytruck.store';
 const API_BASE_URL = url;
 
 // DB 직접 접속
