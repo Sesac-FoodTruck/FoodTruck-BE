@@ -9,7 +9,7 @@ const { indexRouter } = require('./src/router/indexRouter.js');
 const { getConnection } = require('./src/middleware/database.js');
 
 const app = express();
-const port = 4000;
+const port = 5000;
 
 // express-session 설정
 app.use(session({
@@ -42,7 +42,7 @@ app.use('/public', express.static(path.join(__dirname, './public')));
 // cors : 보안수준 낮게
 app.use(cors({
     // origin: "http://localhost:3000",
-    origin: ['http://localhost:3000', 'http://localhost:4000', 'http://localhost:5000', 'http://aws.amazon.com'],
+    origin: ['https://www.yummytruck.shop, http://localhost:3000', 'http://localhost:4000', 'http://localhost:5000', 'http://aws.amazon.com'],
     credentials: true,
 }));
 
@@ -80,9 +80,9 @@ app.use(passport.session());
 require(path.join(__dirname, 'src/strategies', 'kakao'))(app);
 
 //사용자 정보와 세션 연결 (로그인 정보를 세션에 저장)
-passport.serializeUser((user,done)=>{
+passport.serializeUser((user, done) => {
     done(null, user.id)
-    console('세션정보:',user.id);
+    console('세션정보:', user.id);
 })
 
 //user-id를 기반으로, 사용자 객체를 다시 가져오기 위한 함수 
