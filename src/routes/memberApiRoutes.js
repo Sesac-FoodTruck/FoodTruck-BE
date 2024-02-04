@@ -4,7 +4,7 @@ const router = express.Router();
 // 회원 ID를 기준으로 옵션(like, review, report, rate, favorite 데이터 조회)
 // 옵션은 &option={옵션1}&option={옵션2}.... 형식
 router.get('/memberapi', async (req, res) => {
-    const id = req.query.member;
+    const id = req.query.id;
     const options = Array.isArray(req.query.option) ? req.query.option : [req.query.option];
 
     try {
