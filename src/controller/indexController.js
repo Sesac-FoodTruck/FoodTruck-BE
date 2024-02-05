@@ -117,6 +117,7 @@ exports.insertReview = async function (req, res) {
 
     const insertReviewRow = await indexDao.insertReview(id, storeno, storecontent, storerate);
 
+    // 실패 
     if (!insertReviewRow) {
         return res.send({
             isSuccess: false,
@@ -125,6 +126,16 @@ exports.insertReview = async function (req, res) {
         });
     }
 
+    // 4회일때 중복 처리 
+    // if (insertReportRow == 'repeat') {
+    //     return res.send({
+    //         isSuccess: false,
+    //         code: 403,
+    //         message: "신고 중복입니다",
+    //     });
+    // }
+
+    // 성공
     return res.send({
         isSuccess: true,
         code: 200,

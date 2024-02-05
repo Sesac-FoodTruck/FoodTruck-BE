@@ -136,13 +136,13 @@ exports.insertReview = async function (id, storeno, storecontent, storerate) {
 
         try {
             // 리뷰 4회 시도 체크
-            // const readReviewCountQuery = "SELECT COUNT(*) AS `reviewCount` FROM review WHERE id=? and storeno=?;";
-            // const readReviewCountParams = [id, storeno];
-            // const [reviewCountRows] = await connection.query(readReviewCountQuery, readReviewCountParams);
+            const readReviewCountQuery = "SELECT COUNT(*) AS `reviewCount` FROM review WHERE id=? and storeno=?;";
+            const readReviewCountParams = [id, storeno];
+            const [reviewCountRows] = await connection.query(readReviewCountQuery, readReviewCountParams);
 
-            // if (reviewCountRows[0].repeatReportCount >= 1) {
-            //     return "thisIsCountFour";
-            // }
+            if (reviewCountRows[0].repeatReportCount >= 4) {
+                return "thisIsCountFour";
+            }
 
             // 리뷰 등록
             const insertTodoQuery = "insert into review (id, storeno, storecontent, rating, reviewtime) values (?, ?, ?, ?, NOW());";
