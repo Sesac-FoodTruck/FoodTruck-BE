@@ -75,7 +75,7 @@ app.get('/auth/kakao/callback', async (req, res) => {
                     grant_type: 'authorization_code',
                     client_id: '6f058c86db21168b8e6606ff565b4574',
                     code,
-                    redirect_uri: 'http://localhost:3000/auth/kakao/callback',
+                    redirect_uri: 'https://www.yummytruck.shop/auth/kakao/callback',
                 },
             }
         );

@@ -129,6 +129,7 @@ exports.readPurchase = async function (id) {
 
 // --- POST ---
 // 매장페이지 : 리뷰 
+/*
 exports.insertReview = async function (id, storeno, storecontent, storerate) {
     try {
         // DB 연결 검사
@@ -152,12 +153,12 @@ exports.insertReview = async function (id, storeno, storecontent, storerate) {
             // return rows;
 
             // 리뷰 등록 : 실패일때
-            if (!rows) {
-                return rows;
-            }
+            // if (!rows) {
+            //     return rows;
+            // }
 
             // 성공 처리 : 횟수 리턴
-            return reviewCount;
+            // return reviewCount;
 
         } catch (err) {
             console.error(`# insertReview Query error # \n ${err}`);
@@ -171,6 +172,7 @@ exports.insertReview = async function (id, storeno, storecontent, storerate) {
         return false;
     }
 }
+*/
 // 매장페이지 : 신고
 exports.insertReport = async function (id, storeno) {
     try {

@@ -92,6 +92,7 @@ exports.readPurchase = async function (req, res) {
 
 // --- POST ---
 // 매장페이지 : 리뷰 
+/*
 exports.insertReview = async function (req, res) {
     const { id, storeno, storecontent, storerate } = req.body;
     // console.log(userIdx, contents, type);
@@ -127,23 +128,24 @@ exports.insertReview = async function (req, res) {
     }
 
     // 4회일때 중복 처리 
-    if (insertReviewRow == 'thisIsCountFour') {
-        return res.send({
-            isSuccess: false,
-            code: 403,
-            message: "리뷰 제한 3개 초과",
-        });
-    }
+    // if (insertReviewRow == 'thisIsCountFour') {
+    //     return res.send({
+    //         isSuccess: false,
+    //         code: 403,
+    //         message: "리뷰 제한 3개 초과",
+    //     });
+    // }
 
     // 성공
-    let reviewMsg = `리뷰 등록 성공 : ${insertReviewRow}회`;
+    //     let reviewMsg = `리뷰 등록 성공 : ${insertReviewRow}회`;
 
-    return res.send({
-        isSuccess: true,
-        code: 200,
-        message: reviewMsg,
-    });
-};
+    //     return res.send({
+    //         isSuccess: true,
+    //         code: 200,
+    //         message: reviewMsg,
+    //     });
+    // }; 
+    */
 
 // 매장페이지 : 신고 
 exports.insertReport = async function (req, res) {
