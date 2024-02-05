@@ -136,11 +136,13 @@ exports.insertReview = async function (req, res) {
     }
 
     // 성공
-    return res.send({
-        isSuccess: true,
-        code: 200,
-        message: "리뷰 생성 성공",
-    });
+    // let reviewMsg = `리뷰 등록 성공 : ${insertReviewRow}회`;
+
+    // return res.send({
+    //     isSuccess: true,
+    //     code: 200,
+    //     message: "리뷰 생성 성공",
+    // });
 };
 
 // 매장페이지 : 신고 

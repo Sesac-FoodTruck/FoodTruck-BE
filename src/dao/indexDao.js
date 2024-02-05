@@ -140,7 +140,7 @@ exports.insertReview = async function (id, storeno, storecontent, storerate) {
             const readReviewCountParams = [id, storeno];
             const [reviewCountRows] = await connection.query(readReviewCountQuery, readReviewCountParams);
 
-            if (reviewCountRows[0].repeatReportCount >= 4) {
+            if (reviewCountRows[0].reviewCount >= 4) {
                 return "thisIsCountFour";
             }
 
@@ -149,7 +149,15 @@ exports.insertReview = async function (id, storeno, storecontent, storerate) {
             const insertTodoParams = [id, storeno, storecontent, storerate];
 
             const [rows] = await connection.query(insertTodoQuery, insertTodoParams);
-            return rows;
+            // return rows;
+
+            // 리뷰 등록 : 실패일때
+            if (!rows) {
+                return rows;
+            }
+
+            // 성공 처리 : 횟수 리턴
+            return reviewCount;
 
         } catch (err) {
             console.error(`# insertReview Query error # \n ${err}`);
