@@ -127,13 +127,13 @@ exports.insertReview = async function (req, res) {
     }
 
     // 4회일때 중복 처리 
-    // if (insertReportRow == 'repeat') {
-    //     return res.send({
-    //         isSuccess: false,
-    //         code: 403,
-    //         message: "신고 중복입니다",
-    //     });
-    // }
+    if (insertReviewRow == 'thisIsCountFour') {
+        return res.send({
+            isSuccess: false,
+            code: 403,
+            message: "리뷰 제한 3개 초과",
+        });
+    }
 
     // 성공
     return res.send({
