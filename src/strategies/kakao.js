@@ -1,17 +1,11 @@
 const passport = require('passport');
 const KakaoStrategy = require('passport-kakao').Strategy;
 const axios = require('axios');
-const cookieParser = require('cookie-parser');
-const express = require('express');
 
-const app = express();
 require('dotenv').config();
 
 // DB 직접 접속
-
 const mysql = require('mysql2/promise'); // mysql2/promise 모듈 추가
-
-app.use(cookieParser());
 
 const dbConfig = {
     host: "www.yummytruck.store",
@@ -84,8 +78,7 @@ module.exports = (app) => {
     app.get('/auth/kakao/callback', passport.authenticate('kakao', {
         failureRedirect: '/',
     }), (req, res) => {
-        res.cookie('userId', req.user.id, { httpOnly: true, path: 'https://www.yummytruck.shop' });
-        // res.cookie('test', 'hello~');
+        res.cookie('userId', req.user.id, { httpOnly: true });
         console.log(req.user.id)
         // console.log(req)
         // console.log(res)
