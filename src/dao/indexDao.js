@@ -129,7 +129,6 @@ exports.readPurchase = async function (id) {
 
 // --- POST ---
 // 매장페이지 : 리뷰 
-/*
 exports.insertReview = async function (id, storeno, storecontent, storerate) {
     try {
         // DB 연결 검사
@@ -137,28 +136,27 @@ exports.insertReview = async function (id, storeno, storecontent, storerate) {
 
         try {
             // 리뷰 4회 시도 체크
-            const readReviewCountQuery = "SELECT COUNT(*) AS `reviewCount` FROM review WHERE id=? and storeno=?;";
+            const readReviewCountQuery = "SELECT COUNT(*) AS reviewCount FROM review WHERE id=? and storeno=?;";
             const readReviewCountParams = [id, storeno];
-            const [reviewCountRows] = await connection.query(readReviewCountQuery, readReviewCountParams);
-
-            if (reviewCountRows[0].reviewCount >= 4) {
-                return "thisIsCountFour";
+            const [reviewCountCheckRows] = await connection.query(readReviewCountQuery, readReviewCountParams);
+            if (reviewCountCheckRows[0].reviewCount >= 3) {
+                return "count4";
             }
 
             // 리뷰 등록
             const insertTodoQuery = "insert into review (id, storeno, storecontent, rating, reviewtime) values (?, ?, ?, ?, NOW());";
             const insertTodoParams = [id, storeno, storecontent, storerate];
-
             const [rows] = await connection.query(insertTodoQuery, insertTodoParams);
             // return rows;
 
             // 리뷰 등록 : 실패일때
-            // if (!rows) {
-            //     return rows;
-            // }
+            if (!rows) {
+                return rows;
+            }
 
             // 성공 처리 : 횟수 리턴
-            // return reviewCount;
+            const [reviewCountResultRows] = await connection.query(readReviewCountQuery, readReviewCountParams);
+            return reviewCountResultRows[0].reviewCount;
 
         } catch (err) {
             console.error(`# insertReview Query error # \n ${err}`);
@@ -172,7 +170,7 @@ exports.insertReview = async function (id, storeno, storecontent, storerate) {
         return false;
     }
 }
-*/
+
 // 매장페이지 : 신고
 exports.insertReport = async function (id, storeno) {
     try {

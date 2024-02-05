@@ -15,7 +15,7 @@ exports.indexRouter = function (app) {
 
     // --- POST --- 
     // - 리뷰
-    // app.post("/truck/review", indexController.insertReview) // create: body
+    app.post("/truck/review", indexController.insertReview) // create: body
     // - 별점 x
     // app.post("/truck/rate", indexController.insertRate) // create: body
     // - 신고

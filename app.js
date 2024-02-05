@@ -103,7 +103,6 @@ app.get('/auth/kakao/callback', async (req, res) => {
     }
 });
 
-
 app.use(getConnection);
 app.use(frontRoutes);
 app.use(registerRoutes);

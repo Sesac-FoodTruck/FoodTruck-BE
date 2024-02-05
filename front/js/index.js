@@ -7,7 +7,7 @@ async function readData() {
 }
 
 window.onload = async function () {
-    // 오늘 날짜
+    // 기본값 : 오늘 날짜
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, '0');
     var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
@@ -16,35 +16,35 @@ window.onload = async function () {
     document.getElementById("purchase_date").value = today;
 
     // POST : 리뷰 - 완료 
-    // const reviewForm = document.getElementById("reviewForm");
-    // reviewForm.addEventListener("submit", function (event) {
-    //     event.preventDefault();
+    const reviewForm = document.getElementById("reviewForm");
+    reviewForm.addEventListener("submit", function (event) {
+        event.preventDefault();
 
-    //     const id = document.getElementById("review_id").value;
-    //     const storeno = document.getElementById("review_storeno").value;
-    //     const storecontent = document.getElementById("storecontent").value;
-    //     const storerate = document.getElementById("storerate").value;
+        const id = document.getElementById("review_id").value;
+        const storeno = document.getElementById("review_storeno").value;
+        const storecontent = document.getElementById("storecontent").value;
+        const storerate = document.getElementById("storerate").value;
 
-    //     axios.post(url + '/truck/review', {
-    //         id: id,
-    //         storeno: storeno,
-    //         storecontent: storecontent,
-    //         storerate: storerate
-    //     })
-    //         .then(function (response) {
-    //             console.log(response.data);
-    //             const { isSuccess, code, message } = response.data;
+        axios.post(url + '/truck/review', {
+            id: id,
+            storeno: storeno,
+            storecontent: storecontent,
+            storerate: storerate
+        })
+            .then(function (response) {
+                console.log(response.data);
+                const { isSuccess, code, message } = response.data;
 
-    //             if (!isSuccess || code !== 200) {
-    //                 alert(message);
-    //             }
-    //             // readData();
-    //         })
-    //         .catch(function (error) {
-    //             console.log(error);
-    //             alert("Error");
-    //         });
-    // });
+                if (!isSuccess || code !== 200) {
+                    alert(message);
+                }
+                // readData();
+            })
+            .catch(function (error) {
+                console.log(error);
+                alert("Error");
+            });
+    });
     // POST : 신고 
     const reportForm = document.getElementById("reportForm");
     reportForm.addEventListener("submit", function (event) {
@@ -98,7 +98,6 @@ window.onload = async function () {
                 alert("Error");
             });
     });
-    // POST : 가계부 등록 : 하단
 
     let truckId = "";
     if (!truckId) return;
