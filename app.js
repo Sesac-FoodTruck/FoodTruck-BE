@@ -43,7 +43,15 @@ app.use('/public', express.static(path.join(__dirname, './public')));
 // cors : 보안수준 낮게
 app.use(cors({
     // origin: "http://localhost:3000",
-    origin: ['https://www.yummytruck.shop', 'http://localhost:3000', 'http://localhost:4000', 'http://localhost:5000', 'http://aws.amazon.com'],
+    origin: [
+        'https://www.yummytruck.shop',
+        'http://www.yummytruck.shop',
+        'https://www.yummytruck.store',
+        'http://www.yummytruck.store',
+        'http://localhost:3000',
+        'http://localhost:4000',
+        'http://localhost:5000',
+        'http://aws.amazon.com'],
     credentials: true,
 }));
 

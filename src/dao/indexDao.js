@@ -170,7 +170,6 @@ exports.insertReview = async function (id, storeno, storecontent, storerate) {
         return false;
     }
 }
-
 // 매장페이지 : 신고
 exports.insertReport = async function (id, storeno) {
     try {

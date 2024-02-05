@@ -148,6 +148,7 @@ window.onload = async function () {
     }
 }
 
+// this script : index.js
 // POST : 가계부 등록
 async function submitForm(menuName) {
     document.getElementById("purchase_iteminformation").value = menuName;
