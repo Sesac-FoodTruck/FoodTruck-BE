@@ -6,10 +6,10 @@
 
 ## 파일
 secret.js
-package-lock.json
+# package-lock.json
 
 ## 폴더
-node_modules/
+# node_modules/
 bin/
 secret/
 images/
