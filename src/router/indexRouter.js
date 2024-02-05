@@ -35,3 +35,4 @@ exports.indexRouter = function (app) {
     // --- DELETE --- 
     // - 가계부 삭제
     app.delete(`/account/delete`, indexController.deletePurchase) // delete : query, path
+}
