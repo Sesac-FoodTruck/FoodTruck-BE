@@ -7,9 +7,8 @@ const cors = require('cors');
 const compression = require('compression');
 const { indexRouter } = require('./src/router/indexRouter.js');
 const { getConnection } = require('./src/middleware/database.js');
-
 const app = express();
-const port = 4000;
+const port = 5000;
 
 // express-session 설정
 app.use(session({
