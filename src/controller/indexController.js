@@ -144,7 +144,6 @@ exports.insertReview = async function (req, res) {
         message: reviewMsg,
     });
 };
-
 // 매장페이지 : 신고 
 exports.insertReport = async function (req, res) {
     const { id, storeno } = req.body;
