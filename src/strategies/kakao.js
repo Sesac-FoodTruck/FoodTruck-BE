@@ -42,7 +42,7 @@ async function kakaoStrategyCallback(accessToken, refreshToken, profile, done) {
             return done(null, user);
         } else {
             // 새로운 사용자 등록
-            const newUser = await axios.post('/memberRegister', {
+            const newUser = await axios.post('https://www.yummytruck.store/memberRegister', {
                 nickname: profile.username,
                 social_id: profile.id,
                 social_code: 1, // 카카오 코드
