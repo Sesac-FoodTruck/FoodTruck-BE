@@ -26,7 +26,7 @@ const dbConfig = {
 
 passport.use(new KakaoStrategy({
     clientID: process.env.KAKAO_CLIENT_ID,
-    callbackURL: 'http://www.yummytruck.store/auth/kakao/callback'
+    callbackURL: 'https://www.yummytruck.store/auth/kakao/callback'
     // callbackURL: 'http://localhost:4000/auth/kakao/callback'
 }, kakaoStrategyCallback));
 
@@ -84,7 +84,7 @@ module.exports = (app) => {
     app.get('/auth/kakao/callback', passport.authenticate('kakao', {
         failureRedirect: '/',
     }), (req, res) => {
-        res.cookie('userId', req.user.id, { httpOnly: true });
+        res.cookie('userId', req.user.id, { httpOnly: true, path: 'https://www.yummytruck.shop' });
         // res.cookie('test', 'hello~');
         console.log(req.user.id)
         // console.log(req)
