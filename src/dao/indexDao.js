@@ -135,7 +135,16 @@ exports.insertReview = async function (id, storeno, storecontent, storerate) {
         const connection = await pool.getConnection(async (conn) => conn);
 
         try {
-            // 쿼리문
+            // 리뷰 4회 시도 체크
+            // const readReviewCountQuery = "SELECT COUNT(*) AS `reviewCount` FROM review WHERE id=? and storeno=?;";
+            // const readReviewCountParams = [id, storeno];
+            // const [reviewCountRows] = await connection.query(readReviewCountQuery, readReviewCountParams);
+
+            // if (reviewCountRows[0].repeatReportCount >= 1) {
+            //     return "thisIsCountFour";
+            // }
+
+            // 리뷰 등록
             const insertTodoQuery = "insert into review (id, storeno, storecontent, rating, reviewtime) values (?, ?, ?, ?, NOW());";
             const insertTodoParams = [id, storeno, storecontent, storerate];
 

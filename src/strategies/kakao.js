@@ -20,7 +20,7 @@ const dbConfig = {
 
 passport.use(new KakaoStrategy({
     clientID: process.env.KAKAO_CLIENT_ID,
-    callbackURL: 'https://www.yummytruck.store/auth/kakao/callback'
+    callbackURL: 'https://www.yummytruck.shop/auth/kakao/callback'
     // callbackURL: 'http://localhost:4000/auth/kakao/callback'
 }, kakaoStrategyCallback));
 
