@@ -9,7 +9,7 @@ const { indexRouter } = require('./src/router/indexRouter.js');
 const { getConnection } = require('./src/middleware/database.js');
 
 const app = express();
-const port = 5000;
+const port = 4000;
 
 // express-session 설정
 app.use(session({
@@ -42,7 +42,7 @@ app.use('/public', express.static(path.join(__dirname, './public')));
 // cors : 보안수준 낮게
 app.use(cors({
     // origin: "http://localhost:3000",
-    origin: ['https://www.yummytruck.shop', 'http://localhost:3000', 'http://localhost:4000', 'http://localhost:5000', 'http://aws.amazon.com'],
+    origin: ['http://localhost:3000', 'http://localhost:4000', 'http://localhost:5000', 'http://aws.amazon.com'],
     credentials: true,
 }));
 
