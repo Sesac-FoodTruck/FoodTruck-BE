@@ -41,9 +41,27 @@ router.get('/callback', async (req, res) => {
         console.log(id, nickname);
 
         // 여기서 social_id와 nickname을 가지고 member 테이블에 등록 또는 확인하는 로직 추가
-        const existingMember = await checkMember(id);
+        const existingMember = await checkMember(id, nickname);
 
-        const answer = { id: id, nickname: nickname };
+        // UUID 생성 또는 가져오기
+        const userId = existingMember ? existingMember.id : uuidv4();
+
+        // 새로운 멤버 등록이면 UUID로 저장
+        if (!existingMember) {
+            const newMember = {
+                nickname: nickname,
+                social_id: id,
+                social_code: 1, // 카카오 코드 (예: 카카오는 1로 지정)
+                social_token: authToken.data.access_token,
+                id: userId, // UUID
+            };
+            await axios.post('https://www.yummytruck.shop/memberRegister', newMember);
+        }
+
+        // UUID를 헤더에 추가하여 전달
+        res.setHeader('X-UserId', userId);
+
+        const answer = { id: userId, nickname: nickname };
         res.json(answer);
     } catch (error) {
         console.error('에러 발생:', error.message);
@@ -53,7 +71,7 @@ router.get('/callback', async (req, res) => {
 });
 
 // 기존 코드에서 가져온 함수로 멤버 확인 또는 등록
-async function checkMember(socialId) {
+async function checkMember(socialId, nickname) {
     let dbConnection = null;
 
     try {
@@ -64,21 +82,11 @@ async function checkMember(socialId) {
             const user = existingUser[0];
             return user;
         } else {
-            // 새로운 멤버 등록
-            const newMember = {
-                nickname: nickname, // 사용자의 닉네임
-                social_id: socialId, // 사용자의 social_id (카카오 ID)
-                social_code: 1, // 카카오 코드 (예: 카카오는 1로 지정)
-                social_token: authToken.data.access_token, // 사용자의 토큰 정보
-            };
-
-            // 새로운 멤버 등록 요청
-            const response = await axios.post('https://www.yummytruck.shop/memberRegister', newMember);
-
-            return response.data;
+            return null;
         }
     } catch (error) {
         console.error('에러 발생:', error.message);
+        return null;
     } finally {
         if (dbConnection && dbConnection.end) {
             await dbConnection.end(); // 데이터베이스 연결 종료
