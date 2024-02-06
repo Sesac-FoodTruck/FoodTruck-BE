@@ -7,13 +7,13 @@ const multer = require('multer');
 const upload = multer({ dest: 'public/images/stores/' });
 
 router.post('/storeRegister', upload.single('photos'), getConnection, async (req, res) => {
-    const { storename, storetime, categoryid, storeweek, contact, account, payment, latitude, longitude, confirmed, id, location, reportcount } = req.body;     
+    const { storename, storetime, categoryid, storeweek, contact, account, payment, latitude, longitude, confirmed, id, location, reportcount } = req.body.data;
     const photos = req.file ? 'images/stores/' + req.file.filename : '';
 
     try {
         const insertQuery = 'INSERT INTO store (storename, storetime, categoryid, storeweek, photos, contact, account, payment, latitude, longitude, location, confirmed, id, reportcount) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
         const [result] = await req.dbConnection.query(insertQuery, [storename, storetime, categoryid, storeweek, photos, contact, account, payment, latitude, longitude, location, confirmed, id, reportcount]);
-        
+
         // 새로 생성된 storeno 가져오기
         const newStoreNo = result.insertId;
 
@@ -30,10 +30,10 @@ router.post('/storeRegister', upload.single('photos'), getConnection, async (req
 router.put('/storeUpdate', upload.single('photos'), getConnection, async (req, res) => {
     const storeno = req.query.storeno;
     console.log("Received store number:", storeno);
-    console.log("Received body:", req.body); 
+    console.log("Received body:", req.body.data);
 
-    // Destructure all required fields from req.body
-    const { storename, storetime, categoryid, storeweek, contact, account, payment, latitude, longitude, confirmed, id, reportcount } = req.body;
+    // Destructure all required fields from req.body.data
+    const { storename, storetime, categoryid, storeweek, contact, account, payment, latitude, longitude, confirmed, id, reportcount } = req.body.data;
     const photos = req.file ? req.file.path : '';
 
     try {
@@ -48,7 +48,7 @@ router.put('/storeUpdate', upload.single('photos'), getConnection, async (req, r
 
 
 router.post('/itemRegister', upload.single('itemimgurl'), getConnection, async (req, res) => {
-    const { itemname, iteminformation, itemprice, storeno } = req.body;
+    const { itemname, iteminformation, itemprice, storeno } = req.body.data;
     const itemimgurl = req.file ? 'images/items/' + req.file.filename : ''; // 이미지 파일 경로 수정
 
     try {
@@ -62,8 +62,8 @@ router.post('/itemRegister', upload.single('itemimgurl'), getConnection, async (
 });
 
 router.put('/itemUpdate', upload.single('itemimgurl'), getConnection, async (req, res) => {
-    const itemid = req.query.itemid; 
-    const { itemname, iteminformation, itemprice, storeno } = req.body;
+    const itemid = req.query.itemid;
+    const { itemname, iteminformation, itemprice, storeno } = req.body.data;
     const itemimgurl = req.file ? 'images/items/' + req.file.filename : ''; // 이미지 파일 경로 수정
 
     try {
@@ -79,8 +79,8 @@ router.put('/itemUpdate', upload.single('itemimgurl'), getConnection, async (req
 
 // 매장 인증 정보 업데이트 (PUT)
 router.put('/storeConfirmUpdate', getConnection, async (req, res) => {
-    const storeno = req.body.storeno; // URL에서 쿼리 스트링 대신 바디에서 storeno를 받음
-    const { confirmed } = req.body;
+    const storeno = req.body.data.storeno; // URL에서 쿼리 스트링 대신 바디에서 storeno를 받음
+    const { confirmed } = req.body.data;
 
     try {
         const updateQuery = 'UPDATE store SET confirmed = ? WHERE storeno = ?';
