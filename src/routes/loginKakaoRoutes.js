@@ -38,6 +38,7 @@ router.get('/callback', async (req, res) => {
         const id = user.data.id;
         const nickname = profile.nickname;
         console.log(id, nickname);
+        kakaoStrategyCallback(id, nickname, done)
 
         const answer = { id: id, nickname: nickname };
         res.json(answer);
@@ -47,5 +48,35 @@ router.get('/callback', async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
+
+// kakao.js 에서 가져와서 추가한 코드
+async function kakaoStrategyCallback(id, username, done) {
+    let dbConnection = null;
+
+    try {
+        const dbConnection = await mysql.createConnection(dbConfig); // 데이터베이스 연결
+
+        const [existingUser] = await dbConnection.query('SELECT * FROM member WHERE social_id = ?', [profile.id]);
+        if (existingUser.length > 0) {
+            const user = existingUser[0];
+            return done(null, user);
+        } else {
+            // 새로운 사용자 등록
+            const newUser = await axios.post('https://www.yummytruck.store/memberRegister', {
+                nickname: username,
+                social_id: id,
+                social_code: 1, // 카카오 코드
+                social_token: ''
+            });
+            return done(null, newUser.data);
+        }
+    } catch (error) {
+        done(error);
+    } finally {
+        if (dbConnection && dbConnection.end) {
+            await dbConnection.end(); // 데이터베이스 연결 종료
+        }
+    }
+}
 
 module.exports = router;  

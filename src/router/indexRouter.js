@@ -17,11 +17,11 @@ exports.indexRouter = function (app) {
     // - 리뷰
     app.post("/truck/review", indexController.insertReview) // create: body
     // - 별점 x
-    // app.post("/truck/rate", indexController.insertRate) // create: body
+    // app.post("/truck/rate", indexController.insertRate)  // create: body
     // - 신고
     app.post("/truck/complain", indexController.insertReport) // create: body
     // - 좋아요
-    app.post("/truck/good", indexController.insertGood) // create: body
+    app.post("/truck/good", indexController.insertGood)  // create: body
     // - 즐겨찾기
     app.post("/mypage/favorite", indexController.insertFavorite) // create: body
     // - 가계부 등록
