@@ -34,7 +34,8 @@ const registerRoutes = require('./src/routes/registerRoutes');
 const memberRoutes = require('./src/routes/memberRoutes');  // 맴버 정보 api 엔드포인트
 const memberApiRoutes = require('./src/routes/memberApiRoutes');  // 맴버의 like, report(신고), review, rate, favorite 리스트
 const calculateRoutes = require('./src/routes/calculateRoutes');  // 위도+경도+거리 로 매장리스트+거리 제공 api
-const truckRoutes = require('./src/routes/truckRoutes')  // 푸드트럭 등록/갱신
+const truckRoutes = require('./src/routes/truckRoutes');  // 푸드트럭 등록/갱신
+const loginKakaoRoutes = require('./src/routes/loginKakaoRoutes'); // 추가 
 
 // Static
 app.use(express.static('public'));
@@ -112,6 +113,7 @@ app.get('/auth/kakao/callback', async (req, res) => {
 });
 
 app.use(getConnection);
+app.use(loginKakaoRoutes); // 추가
 app.use(frontRoutes);
 app.use(registerRoutes);
 app.use(memberRoutes); // 맴버 기본정보

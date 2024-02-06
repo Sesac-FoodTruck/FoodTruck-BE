@@ -302,7 +302,6 @@ exports.insertPurchase = async function (req, res) {
         message: "가계부 등록 성공",
     });
 };
-
 // --- PATCH ---
 // 가계부 갯수 수정
 exports.modifyQuantity = async function (req, res) {
@@ -338,7 +337,6 @@ exports.modifyQuantity = async function (req, res) {
         message: `가계부 | ${menuName} | 갯수 ${method} : ${menuQuantity}개`,
     });
 };
-
 // --- DELETE ---
 // 가계부 삭제 
 exports.deletePurchase = async function (req, res) {
