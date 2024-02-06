@@ -18,7 +18,7 @@ router.get('/callback', async (req, res) => {
                 },
                 params: {
                     grant_type: 'authorization_code',
-                    client_id: 'YOUR_CLIENT_ID', // Replace with your Kakao client ID
+                    client_id: '6f058c86db21168b8e6606ff565b4574', // Replace with your Kakao client ID
                     code,
                     redirect_uri: 'https://www.yummytruck.shop/auth/kakao/callback',
                 },
@@ -50,25 +50,24 @@ router.get('/callback', async (req, res) => {
 });
 
 // kakao.js 에서 가져와서 추가한 코드
-async function kakaoStrategyCallback(id, username, done) {
+// 기존 코드
+async function kakaoStrategyCallback(id, username) {
     let dbConnection = null;
 
     try {
         const dbConnection = await mysql.createConnection(dbConfig); // 데이터베이스 연결
 
-        const [existingUser] = await dbConnection.query('SELECT * FROM member WHERE social_id = ?', [profile.id]);
+        const [existingUser] = await dbConnection.query('SELECT * FROM member WHERE social_id = ?', [id]);
         if (existingUser.length > 0) {
             const user = existingUser[0];
-            return done(null, user);
         } else {
             // 새로운 사용자 등록
-            const newUser = await axios.post('https://www.yummytruck.store/memberRegister', {
+            await axios.post('https://www.yummytruck.store/memberRegister', {
                 nickname: username,
                 social_id: id,
                 social_code: 1, // 카카오 코드
                 social_token: ''
             });
-            return done(null, newUser.data);
         }
     } catch (error) {
         done(error);
@@ -78,5 +77,6 @@ async function kakaoStrategyCallback(id, username, done) {
         }
     }
 }
+
 
 module.exports = router;  
