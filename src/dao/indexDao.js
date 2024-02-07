@@ -81,8 +81,9 @@ exports.readStore = async function (storeno) {
                 FROM \`item\` WHERE storeno=s.storeno) AS \`menu\`, 
                 (SELECT JSON_ARRAYAGG(JSON_OBJECT('name', m.nickname, 'rating', r.rating, 'comment', r.storecontent)) 
                 FROM review r JOIN member m on r.id=m.id WHERE r.storeno=s.storeno ORDER BY m.nickname) AS \`review\`, 
-                s.photos AS photo 
-                FROM \`store\` s 
+                s.photos AS photo, 
+                s.confirmed AS confirmed
+                FROM \`store\` s
                 WHERE s.storeno = ?;`;
             const selectStoreParams = [storeno];
 
