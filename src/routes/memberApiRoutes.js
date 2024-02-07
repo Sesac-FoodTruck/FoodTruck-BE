@@ -30,8 +30,8 @@ router.get('/memberapi', async (req, res) => {
                     `;
                     break;
 
-                case 'report':
-                    query = buildQuery('report');
+                case 'review':
+                    query = buildQuery('review');
                     break;
                 case 'store':
                     query = buildQuery('store');
