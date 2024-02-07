@@ -1,4 +1,3 @@
-
 const express = require('express');
 const router = express.Router();
 
@@ -24,13 +23,13 @@ router.get('/memberapi', async (req, res) => {
                     break;
                 case 'like':
                     query = `
-                        SELECT l.*, s.storename
+                        SELECT l.*, s.storename, s.location
                         FROM \`like\` l
                         LEFT JOIN store s ON l.storeno = s.storeno
                         WHERE l.id = ?
                     `;
                     break;
-                                        
+
                 case 'report':
                     query = buildQuery('report');
                     break;
@@ -58,7 +57,7 @@ router.get('/memberapi', async (req, res) => {
 
                     return tableRow;
                 });
-            }            
+            }
 
             // if (rows.length > 0) {
             //     results[opt] = rows.map(row => {

@@ -1,6 +1,6 @@
 const express = require('express');
 const axios = require('axios');
-const mysql = require('mysql2'); // mysql 라이브러리 추가
+const mysql = require('mysql2/promise'); // mysql 라이브러리 추가
 const { v4: uuidv4 } = require('uuid'); // uuid 라이브러리 추가
 
 const router = express.Router();
@@ -16,7 +16,7 @@ const dbConfig = {
     queueLimit: 0
 }
 
-router.get('/callback', async (req, res) => {
+router.get('/auth/kakao/callback', async (req, res) => {
     try {
         const code = req.query.code;
         console.log(code);
@@ -31,7 +31,7 @@ router.get('/callback', async (req, res) => {
                 },
                 params: {
                     grant_type: 'authorization_code',
-                    client_id: 'YOUR_CLIENT_ID', // Replace with your Kakao client ID
+                    client_id: '6f058c86db21168b8e6606ff565b4574',
                     code,
                     redirect_uri: 'https://www.yummytruck.shop/auth/kakao/callback',
                 },
