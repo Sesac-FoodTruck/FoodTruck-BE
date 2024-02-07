@@ -4,6 +4,17 @@ const { v4: uuidv4 } = require('uuid'); // uuid 라이브러리 추가
 
 const router = express.Router();
 
+const dbConfig = {
+    host: "www.yummytruck.store",
+    user: "truck-client",
+    port: "3306",
+    password: "111111",
+    database: "foodtruck",
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0
+}
+
 router.get('/callback', async (req, res) => {
     try {
         const code = req.query.code;
