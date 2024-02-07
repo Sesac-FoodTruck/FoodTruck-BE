@@ -71,11 +71,12 @@ router.get('/callback', async (req, res) => {
             // 데이터베이스에 연결하여 회원 등록
             const dbConnection = await mysql.createConnection(dbConfig);
             const insertQuery = 'INSERT INTO member (id, nickname, social_id, social_code, social_token) VALUES (?, ?, ?, ?, ?)';
+            console.log(insertQuery)
             await dbConnection.query(insertQuery, [newMember.id, newMember.nickname, newMember.social_id, newMember.social_code, newMember.social_token]);
             await dbConnection.end(); // 데이터베이스 연결 종료
         }
 
-        console.log(insertQuery)
+
 
         // UUID와 social_id를 헤더에 추가하여 전달
         res.setHeader('X-UserId', userId);
