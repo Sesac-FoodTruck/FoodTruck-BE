@@ -8,8 +8,8 @@ const compression = require('compression');
 const { indexRouter } = require('./src/router/indexRouter.js');
 const { getConnection } = require('./src/middleware/database.js');
 const axios = require('axios')
-const { v4: uuidv4 } = require('uuid');
-const mysql = require('mysql2');
+const mysql = require('mysql2'); // mysql 라이브러리 추가
+const { v4: uuidv4 } = require('uuid'); // uuid 라이브러리 추가
 
 const app = express();
 const port = 5000;
@@ -69,7 +69,7 @@ nunjucks.configure(path.join(__dirname, '/src/views'), {
     noCache: true
 });
 
-router.get('auth/kakao/callback', async (req, res) => {
+app.get('/auth/kakao/callback', async (req, res) => {
     try {
         const code = req.query.code;
         console.log(code);
