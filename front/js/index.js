@@ -151,16 +151,16 @@ window.onload = async function () {
 // this script : index.js
 // POST : 가계부 등록
 async function submitForm(menuName) {
-    document.getElementById("purchase_iteminformation").value = menuName;
+    document.getElementById("purchase_itemname").value = menuName;
 
     const id = document.getElementById("purchase_id").value;
     const date = document.getElementById("purchase_date").value;
-    const iteminformation = document.getElementById("purchase_iteminformation").value;
+    const itemname = document.getElementById("purchase_itemname").value;
 
     await axios.post(url + '/account/menu', {
         id: id,
         date: date,
-        iteminformation: iteminformation,
+        itemname: itemname,
     })
         .then(function (response) {
             console.log(response.data);
@@ -179,17 +179,17 @@ async function submitForm(menuName) {
 
 // PATCH : 가계부 수정  
 function changeQuantity(menuName, factor) {
-    document.getElementById("purchase_iteminformation").value = menuName;
+    document.getElementById("purchase_itemname").value = menuName;
 
     const id = document.getElementById("purchase_id").value;
     const date = document.getElementById("purchase_date").value;
-    const iteminformation = document.getElementById("purchase_iteminformation").value;
+    const itemname = document.getElementById("purchase_itemname").value;
 
     // axios.put(url + '/account?date=${data}&menu=${menuName}&method=${method}')
     axios.patch(url + '/account/menu/modify', {
         id: id,
         date: date,
-        iteminformation: iteminformation,
+        itemname: itemname,
         factor: factor,
     })
         .then(function (response) {
@@ -209,14 +209,14 @@ function changeQuantity(menuName, factor) {
 
 // DELETE : 가계부 삭제 
 async function deleteItem(menuName) {
-    document.getElementById("purchase_iteminformation").value = menuName;
+    document.getElementById("purchase_itemname").value = menuName;
 
     const id = document.getElementById("purchase_id").value;
     const date = document.getElementById("purchase_date").value;
-    const iteminformation = document.getElementById("purchase_iteminformation").value;
+    const itemname = document.getElementById("purchase_itemname").value;
 
     try {
-        const res = await axios.delete(url + `/account/delete?id=${id}&date=${date}&menu=${iteminformation}`);
+        const res = await axios.delete(url + `/account/delete?id=${id}&date=${date}&menu=${itemname}`);
 
         if (res.data.code !== 200) {
             alert(res.data.message);

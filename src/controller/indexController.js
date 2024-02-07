@@ -86,7 +86,7 @@ exports.readPurchase = async function (req, res) {
         purchase: readPurchaseRow, // 결과물 배열
         isSuccess: true,
         code: 200,
-        message: "매장 상세정보 조회 성공",
+        message: "가계부 조회 성공",
     });
 };
 
@@ -263,11 +263,11 @@ exports.insertFavorite = async function (req, res) {
 };
 // 가계부 등록
 exports.insertPurchase = async function (req, res) {
-    const { id, date, iteminformation } = req.body;
+    const { id, date, itemname } = req.body;
 
     // [ 예외 처리 ] 
     // 입력값 누락
-    if (!id || !iteminformation) {
+    if (!id || !itemname) {
         return res.send({
             isSuccess: false,
             code: 400,
@@ -275,7 +275,7 @@ exports.insertPurchase = async function (req, res) {
         });
     }
 
-    const insertPurchaseRow = await indexDao.insertPurchase(id, date, iteminformation);
+    const insertPurchaseRow = await indexDao.insertPurchase(id, date, itemname);
 
     // 실패
     if (!insertPurchaseRow) {
@@ -305,11 +305,11 @@ exports.insertPurchase = async function (req, res) {
 // --- PATCH ---
 // 가계부 갯수 수정
 exports.modifyQuantity = async function (req, res) {
-    const { id, date, iteminformation, factor } = req.body;
+    const { id, date, itemname, factor } = req.body;
 
     // [ 예외 처리 ] 
     // 입력값 누락
-    if (!id || !date || !iteminformation || !factor) {
+    if (!id || !date || !itemname || !factor) {
         return res.send({
             isSuccess: false,
             code: 400,
@@ -317,7 +317,7 @@ exports.modifyQuantity = async function (req, res) {
         });
     }
 
-    const { modifyQuantityRows, menuName, menuQuantity } = await indexDao.modifyQuantity(id, date, iteminformation, factor);
+    const { modifyQuantityRows, menuName, menuQuantity } = await indexDao.modifyQuantity(id, date, itemname, factor);
 
     // 갯수 수정 - 실패 
     if (!modifyQuantityRows) {
@@ -343,11 +343,11 @@ exports.deletePurchase = async function (req, res) {
     // const { id, date, menu } = req.query;
     const id = req.query.id;
     const date = req.query.date;
-    const iteminformation = req.query.menu;
+    const itemname = req.query.menu;
 
     // console.log("삭제정보", id, date, iteminformation);
 
-    let { deletePurchaseRow, affectedRows } = await indexDao.deletePurchase(id, date, iteminformation);
+    let { deletePurchaseRow, affectedRows } = await indexDao.deletePurchase(id, date, itemname);
 
     // 실패 
     if (!deletePurchaseRow) {

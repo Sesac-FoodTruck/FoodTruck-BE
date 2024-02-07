@@ -110,7 +110,7 @@ exports.readPurchase = async function (id) {
 
         try {
             // ID, 날짜, 가게명, 메뉴, 가격, 수량
-            const selectPurchaseQuery = "SELECT id, DATE_FORMAT(date, '%Y-%m-%d') as date, (SELECT storename FROM store WHERE storeno=p.storeno) AS storename, iteminformation, itemquantity, itempricesum FROM purchase p where id = ? ORDER BY date ASC;";
+            const selectPurchaseQuery = "SELECT id, DATE_FORMAT(date, '%Y-%m-%d') as date, (SELECT storename FROM store WHERE storeno=p.storeno) AS storename, itemname, itemquantity, itempricesum FROM purchase p where id = ? ORDER BY date ASC;";
             const selectPurchaseParams = [id];
             const [rows] = await connection.query(selectPurchaseQuery, selectPurchaseParams);
             return rows; // 출력값
@@ -260,26 +260,25 @@ exports.insertGood = async function (id, storeno) {
     }
 }
 // 가계부 등록
-exports.insertPurchase = async function (id, date, iteminformation) {
+exports.insertPurchase = async function (id, date, itemname) {
     try {
         // DB 연결 검사
         const connection = await pool.getConnection(async (conn) => conn);
-
         try {
             // 중복 체크 
-            const readRepeatPurchaseQuery = "SELECT COUNT(*) AS `repeatPurchaseCount` FROM purchase WHERE id=? and date=? and iteminformation=?;";
-            const readRepeatPurchaseParams = [id, date, iteminformation];
+            const readRepeatPurchaseQuery = "SELECT COUNT(*) AS `repeatPurchaseCount` FROM purchase WHERE id=? and date=? and itemname=?;";
+            const readRepeatPurchaseParams = [id, date, itemname];
             const [repeatPurchaseCountRows] = await connection.query(readRepeatPurchaseQuery, readRepeatPurchaseParams);
             if (repeatPurchaseCountRows[0].repeatPurchaseCount >= 1) {
                 return "repeat";
             }
 
             // 가계부 등록 
-            // const insertPurchaseQuery = "INSERT INTO \`purchase\` (date, storeno, itemid, iteminformation, itempricesum, id) SELECT CURDATE(), item.storeno, item.itemid, item.iteminformation, item.itemprice, ? FROM \`item\` WHERE item.iteminformation = ?;";
-            const insertPurchaseQuery = "INSERT INTO \`purchase\` (date, storeno, itemid, iteminformation, itempricesum, id) SELECT ?, item.storeno, item.itemid, item.iteminformation, item.itemprice, ? FROM \`item\` WHERE item.iteminformation = ?;";
-            const insertPurchaseParams = [date, id, iteminformation];
+            const insertPurchaseQuery = "INSERT INTO purchase (date, storeno, itemid, itemname, itempricesum, id) SELECT ?, item.storeno, item.itemid, item.itemname, item.itemprice, ? FROM item WHERE item.itemname = ?;";
+            const insertPurchaseParams = [date, id, itemname];
 
             const [rows] = await connection.query(insertPurchaseQuery, insertPurchaseParams);
+            console.log(rows);
             return rows;
 
         } catch (err) {
@@ -297,21 +296,28 @@ exports.insertPurchase = async function (id, date, iteminformation) {
 
 // --- PATCH ---
 // 가계부 수정 
-exports.modifyQuantity = async function (id, date, iteminformation, factor) {
+exports.modifyQuantity = async function (id, date, itemname, factor) {
     try {
         // DB 연결 검사
         const connection = await pool.getConnection(async (conn) => conn);
 
         try {
-            const modifyQuantityQuery = "UPDATE purchase AS main JOIN purchase AS sub ON main.transactionid = sub.transactionid SET main.itemquantity = GREATEST(main.itemquantity + ?, 1) WHERE sub.id = ? AND sub.date = ? AND sub.iteminformation = ?;";
-            const modifyQuantityParams = [factor, id, date, iteminformation];
+            const modifyQuantityQuery = `
+            UPDATE purchase AS main 
+            JOIN purchase AS sub ON main.transactionid = sub.transactionid 
+            JOIN item ON main.itemid = item.itemid 
+            SET main.itemquantity = GREATEST(main.itemquantity + ?, 1), 
+                main.itempricesum = (main.itemquantity + ?) * item.itemprice
+            WHERE sub.id = ? AND sub.date = ? AND sub.itemname = ?`;
+
+            const modifyQuantityParams = [factor, factor, id, date, itemname];
             const [modifyQuantityRows] = await connection.query(modifyQuantityQuery, modifyQuantityParams);
 
-            const readQuantityQuery = "SELECT iteminformation, itemquantity FROM purchase WHERE id = ? AND date = ? AND iteminformation = ?;"
-            const readQuantityParams = [id, date, iteminformation];
+            const readQuantityQuery = "SELECT itemname, itemquantity FROM purchase WHERE id = ? AND date = ? AND itemname = ?;"
+            const readQuantityParams = [id, date, itemname];
             const [readQuantityRows] = await connection.query(readQuantityQuery, readQuantityParams);
 
-            const menuName = readQuantityRows[0].iteminformation;
+            const menuName = readQuantityRows[0].itemname;
             const menuQuantity = readQuantityRows[0].itemquantity;
 
             return { modifyQuantityRows, menuName, menuQuantity };
@@ -331,14 +337,14 @@ exports.modifyQuantity = async function (id, date, iteminformation, factor) {
 
 // --- DELETE ---
 // 가계부 삭제 
-exports.deletePurchase = async function (id, date, iteminformation) {
+exports.deletePurchase = async function (id, date, itemname) {
     try {
         // DB 연결 검사
         const connection = await pool.getConnection(async (conn) => conn);
 
         try {
-            const deletePurchaseQuery = "DELETE main FROM purchase AS main JOIN purchase AS sub ON main.transactionid = sub.transactionid WHERE sub.id = ? AND sub.date = ? AND sub.iteminformation = ?;"
-            const deletePurchaseParams = [id, date, iteminformation];
+            const deletePurchaseQuery = "DELETE main FROM purchase AS main JOIN purchase AS sub ON main.transactionid = sub.transactionid WHERE sub.id = ? AND sub.date = ? AND sub.itemname = ?;"
+            const deletePurchaseParams = [id, date, itemname];
             const [deletePurchaseRow] = await connection.query(deletePurchaseQuery, deletePurchaseParams);
             const affectedRows = deletePurchaseRow.affectedRows;
             // console.log("affectedRows", affectedRows);
