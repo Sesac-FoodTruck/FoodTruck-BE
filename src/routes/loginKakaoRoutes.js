@@ -1,6 +1,6 @@
 const express = require('express');
 const axios = require('axios');
-const mysql = require('mysql'); // mysql 라이브러리 추가
+const mysql = require('mysql2'); // mysql 라이브러리 추가
 const { v4: uuidv4 } = require('uuid'); // uuid 라이브러리 추가
 
 const router = express.Router();
@@ -74,6 +74,8 @@ router.get('/callback', async (req, res) => {
             await dbConnection.query(insertQuery, [newMember.id, newMember.nickname, newMember.social_id, newMember.social_code, newMember.social_token]);
             await dbConnection.end(); // 데이터베이스 연결 종료
         }
+
+        console.log(insertQuery)
 
         // UUID와 social_id를 헤더에 추가하여 전달
         res.setHeader('X-UserId', userId);
