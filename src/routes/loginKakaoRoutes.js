@@ -1,5 +1,6 @@
 const express = require('express');
 const axios = require('axios');
+const mysql = require('mysql'); // mysql 라이브러리 추가
 const { v4: uuidv4 } = require('uuid'); // uuid 라이브러리 추가
 
 const router = express.Router();
@@ -66,11 +67,17 @@ router.get('/callback', async (req, res) => {
                 social_token: authToken.data.access_token,
                 id: userId, // UUID
             };
-            await axios.post('https://www.yummytruck.shop/memberRegister', newMember);
+
+            // 데이터베이스에 연결하여 회원 등록
+            const dbConnection = await mysql.createConnection(dbConfig);
+            const insertQuery = 'INSERT INTO member (id, nickname, social_id, social_code, social_token) VALUES (?, ?, ?, ?, ?)';
+            await dbConnection.query(insertQuery, [newMember.id, newMember.nickname, newMember.social_id, newMember.social_code, newMember.social_token]);
+            await dbConnection.end(); // 데이터베이스 연결 종료
         }
 
-        // UUID를 헤더에 추가하여 전달
+        // UUID와 social_id를 헤더에 추가하여 전달
         res.setHeader('X-UserId', userId);
+        res.setHeader('X-SocialId', id);
 
         const answer = { id: userId, nickname: nickname };
         res.json(answer);
