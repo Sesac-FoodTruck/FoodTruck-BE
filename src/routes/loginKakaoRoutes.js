@@ -82,7 +82,7 @@ router.get('/auth/kakao/callback', async (req, res) => {
         res.setHeader('X-UserId', userId);
         res.setHeader('X-SocialId', id);
 
-        const answer = { id: userId, nickname: nickname };
+        const answer = { id: id, nickname: nickname };
         res.json(answer);
     } catch (error) {
         console.error('에러 발생:', error.message);
