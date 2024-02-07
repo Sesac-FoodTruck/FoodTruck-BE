@@ -159,8 +159,10 @@ async function submitForm(menuName) {
 
     await axios.post(url + '/account/menu', {
         id: id,
-        date: date,
+        date: "2/8",
         itemname: itemname,
+        itemprice: 7000,
+        storeno: 12,
     })
         .then(function (response) {
             console.log(response.data);
@@ -188,7 +190,7 @@ function changeQuantity(menuName, factor) {
     // axios.put(url + '/account?date=${data}&menu=${menuName}&method=${method}')
     axios.patch(url + '/account/menu/modify', {
         id: id,
-        date: date,
+        date: "2/8",
         itemname: itemname,
         factor: factor,
     })
@@ -212,7 +214,8 @@ async function deleteItem(menuName) {
     document.getElementById("purchase_itemname").value = menuName;
 
     const id = document.getElementById("purchase_id").value;
-    const date = document.getElementById("purchase_date").value;
+    // const date = document.getElementById("purchase_date").value;
+    const date = "2/8";
     const itemname = document.getElementById("purchase_itemname").value;
 
     try {

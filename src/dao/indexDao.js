@@ -110,7 +110,10 @@ exports.readPurchase = async function (id) {
 
         try {
             // ID, 날짜, 가게명, 메뉴, 가격, 수량
-            const selectPurchaseQuery = "SELECT id, DATE_FORMAT(date, '%Y-%m-%d') as date, (SELECT storename FROM store WHERE storeno=p.storeno) AS storename, itemname, itemquantity, itempricesum FROM purchase p where id = ? ORDER BY date ASC;";
+            // const selectPurchaseQuery = "SELECT id, DATE_FORMAT(date, '%Y-%m-%d') as date, (SELECT storename FROM store WHERE storeno=p.storeno) AS storename, itemname, itemquantity, itempricesum FROM purchase p where id = ? ORDER BY date ASC;";
+
+            const selectPurchaseQuery = "SELECT id, date, (SELECT storename FROM store WHERE storeno=p.storeno) AS storename, itemname, itemquantity, itempricesum FROM purchase p where id = ? ORDER BY date ASC;";
+
             const selectPurchaseParams = [id];
             const [rows] = await connection.query(selectPurchaseQuery, selectPurchaseParams);
             return rows; // 출력값
@@ -260,7 +263,7 @@ exports.insertGood = async function (id, storeno) {
     }
 }
 // 가계부 등록
-exports.insertPurchase = async function (id, date, itemname) {
+exports.insertPurchase = async function (id, date, itemname, itemprice, storeno) {
     try {
         // DB 연결 검사
         const connection = await pool.getConnection(async (conn) => conn);
@@ -274,9 +277,11 @@ exports.insertPurchase = async function (id, date, itemname) {
             }
 
             // 가계부 등록 
-            const insertPurchaseQuery = "INSERT INTO purchase (date, storeno, itemid, itemname, itempricesum, id) SELECT ?, item.storeno, item.itemid, item.itemname, item.itemprice, ? FROM item WHERE item.itemname = ?;";
-            const insertPurchaseParams = [date, id, itemname];
+            const insertPurchaseQuery = `
+            INSERT INTO purchase (id, date, storeno, itemid, itemname, itemprice, itempricesum) 
+            values ( ?, ?, ?, (SELECT i.itemid FROM item i WHERE i.itemname=?), ?, ?, ? );`
 
+            const insertPurchaseParams = [id, date, storeno, itemname, itemname, itemprice, itemprice];
             const [rows] = await connection.query(insertPurchaseQuery, insertPurchaseParams);
             console.log(rows);
             return rows;
@@ -307,15 +312,17 @@ exports.modifyQuantity = async function (id, date, itemname, factor) {
             JOIN purchase AS sub ON main.transactionid = sub.transactionid 
             JOIN item ON main.itemid = item.itemid 
             SET main.itemquantity = GREATEST(main.itemquantity + ?, 1), 
-                main.itempricesum = (main.itemquantity + ?) * item.itemprice
+                main.itempricesum = GREATEST(main.itemquantity + ?, 1) * main.itemprice
             WHERE sub.id = ? AND sub.date = ? AND sub.itemname = ?`;
 
             const modifyQuantityParams = [factor, factor, id, date, itemname];
             const [modifyQuantityRows] = await connection.query(modifyQuantityQuery, modifyQuantityParams);
 
-            const readQuantityQuery = "SELECT itemname, itemquantity FROM purchase WHERE id = ? AND date = ? AND itemname = ?;"
+            const readQuantityQuery = `SELECT itemname, itemquantity FROM purchase WHERE id = ? AND date = ? AND itemname = ?`;
             const readQuantityParams = [id, date, itemname];
             const [readQuantityRows] = await connection.query(readQuantityQuery, readQuantityParams);
+
+            console.log(readQuantityRows)
 
             const menuName = readQuantityRows[0].itemname;
             const menuQuantity = readQuantityRows[0].itemquantity;
@@ -343,7 +350,7 @@ exports.deletePurchase = async function (id, date, itemname) {
         const connection = await pool.getConnection(async (conn) => conn);
 
         try {
-            const deletePurchaseQuery = "DELETE main FROM purchase AS main JOIN purchase AS sub ON main.transactionid = sub.transactionid WHERE sub.id = ? AND sub.date = ? AND sub.itemname = ?;"
+            const deletePurchaseQuery = "DELETE main FROM purchase AS main JOIN purchase AS sub ON main.transactionid = sub.transactionid WHERE sub.id = ? AND sub.date = ? AND sub.itemname = ?";
             const deletePurchaseParams = [id, date, itemname];
             const [deletePurchaseRow] = await connection.query(deletePurchaseQuery, deletePurchaseParams);
             const affectedRows = deletePurchaseRow.affectedRows;

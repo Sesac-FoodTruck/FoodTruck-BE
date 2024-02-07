@@ -263,7 +263,7 @@ exports.insertFavorite = async function (req, res) {
 };
 // 가계부 등록
 exports.insertPurchase = async function (req, res) {
-    const { id, date, itemname } = req.body;
+    const { id, date, itemname, itemprice, storeno } = req.body;
 
     // [ 예외 처리 ] 
     // 입력값 누락
@@ -275,7 +275,7 @@ exports.insertPurchase = async function (req, res) {
         });
     }
 
-    const insertPurchaseRow = await indexDao.insertPurchase(id, date, itemname);
+    const insertPurchaseRow = await indexDao.insertPurchase(id, date, itemname, itemprice, storeno);
 
     // 실패
     if (!insertPurchaseRow) {
