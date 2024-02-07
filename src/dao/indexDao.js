@@ -80,7 +80,7 @@ exports.readStore = async function (storeno) {
                 (SELECT JSON_ARRAYAGG(JSON_OBJECT('name', itemname, 'description', iteminformation, 'price', itemprice)) 
                 FROM \`item\` WHERE storeno=s.storeno) AS \`menu\`, 
                 (SELECT JSON_ARRAYAGG(JSON_OBJECT('name', m.nickname, 'rating', r.rating, 'comment', r.storecontent)) 
-                FROM review r JOIN member m on r.id=m.id WHERE r.storeno=s.storeno ORDER BY m.nickname) AS \`review\`, 
+                FROM review r JOIN member m on r.id=m.social_id WHERE r.storeno=s.storeno ORDER BY m.nickname) AS \`review\`, 
                 s.photos AS photo, 
                 s.confirmed AS confirmed
                 FROM \`store\` s
