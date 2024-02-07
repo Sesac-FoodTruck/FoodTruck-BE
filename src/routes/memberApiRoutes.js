@@ -10,6 +10,11 @@ router.get('/memberapi', async (req, res) => {
     try {
         const buildQuery = (tableName) => {
             // Use backticks for table names to avoid issues with reserved keywords
+
+            if (tableName == 'review') {
+                return `SELECT reviewno, id, storeno, s.storename AS storename, storecontent, rating, reviewtime 
+                FROM review r JOIN store s ON r.storeno=s.storeno WHERE id = ?`;
+            }
             return `SELECT * FROM \`${tableName}\` WHERE id = ?`;
         };
 
