@@ -1,3 +1,4 @@
+
 const express = require('express');
 const router = express.Router();
 
@@ -18,17 +19,23 @@ router.get('/memberapi', async (req, res) => {
         for (let opt of options) {
             let query;
             switch (opt) {
-                case 'like':
-                    query = buildQuery('like'); // Enclosed in backticks
-                    break;
                 case 'favorite':
                     query = buildQuery('favorite');
                     break;
-                case 'review':
-                    query = buildQuery('review');
+                case 'like':
+                    query = `
+                        SELECT l.*, s.storename
+                        FROM \`like\` l
+                        LEFT JOIN store s ON l.storeno = s.storeno
+                        WHERE l.id = ?
+                    `;
                     break;
+                                        
                 case 'report':
                     query = buildQuery('report');
+                    break;
+                case 'store':
+                    query = buildQuery('store');
                     break;
                 default:
                     continue;
@@ -44,9 +51,24 @@ router.get('/memberapi', async (req, res) => {
                     for (let [key, value] of Object.entries(row)) {
                         tableRow[key] = value;
                     }
+                    // Add storename if it exists in the row
+                    if (row.storename) {
+                        tableRow.storename = row.storename;
+                    }
+
                     return tableRow;
                 });
-            }
+            }            
+
+            // if (rows.length > 0) {
+            //     results[opt] = rows.map(row => {
+            //         let tableRow = {};
+            //         for (let [key, value] of Object.entries(row)) {
+            //             tableRow[key] = value;
+            //         }
+            //         return tableRow;
+            //     });
+            // }
         }
 
         if (Object.keys(results).length === 0) {
