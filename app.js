@@ -14,7 +14,7 @@ const port = 5000;
 
 // express-session 설정
 app.use(session({
-    secret: 'foodtruck1234', // 여기에 안전한 비밀 키를 설정해주세요.
+    secret: 'foodtruck1234', 
     resave: false,
     saveUninitialized: true,
     cookie: { secure: true }
@@ -45,6 +45,10 @@ app.use('/public', express.static(path.join(__dirname, './public')));
 app.use(cors({
     // origin: "http://localhost:3000",
     origin: [
+        'http://www.seoulfoodtruck.shop',
+        'https://www.seoulfoodtruck.shop',
+        'http://www.foodtruckadmin.store',
+        'https://www.foodtruckadmin.store',        
         'https://www.yummytruck.shop',
         'http://www.yummytruck.shop',
         'https://www.yummytruck.store',

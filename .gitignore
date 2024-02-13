@@ -5,11 +5,13 @@
 *.db
 
 ## 파일
+.env
 secret.js
+/.DS_Store
 # package-lock.json
 
 ## 폴더
-# node_modules/
+node_modules/
 bin/
 secret/
 images/
