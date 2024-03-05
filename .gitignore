@@ -1,0 +1,15 @@
+## 형식
+*.csv
+*.bin
+*.bak
+*.db
+
+## 파일
+secret.js
+# package-lock.json
+
+## 폴더
+# node_modules/
+bin/
+secret/
+images/

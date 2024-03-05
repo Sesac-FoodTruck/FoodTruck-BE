@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>로그인 페이지</title>
+    <!-- <script>
+        document.cookie = "originalUrl=" + window.location.href;
+    </script> -->
+</head>
+<body>
+    <h1>로그인 페이지</h1>
+
+    {%if messages.error%}
+        <div style="color:red">{{messages.error}}</div>
+    {%endif%}
+
+    <form action="/login" method="post">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+        <br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+        <button type="submit">로그인</button>
+    </form>
+
+    <a href="/auth/kakao">
+        <img src="../public/kakao-logo.png" width="300px">
+    </a>
+
+
+</body>
+</html>
